@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if page.edit_url and config.issues_url %}
+    <a href="{{ page.edit_url }}" title="{{ lang.t('edit.link.title') }}" class="md-content__button md-icon" target="blank_" style="font-size: 14px;">
+      {% include ".icons/material/pencil.svg" %} <p style="margin-top:2px;">Edit this page</p>
+    </a>
+    <a href="{{ config.issues_url }}" title="Open an issue" class="md-content__button md-icon" target="blank_" style="font-size: 14px;">
+      {% include ".icons/fontawesome/brands/github.svg" %} <p style="margin-top:2px;">Open and issue</p>
+    </a>
+  {% endif %}
+  {% block source %}
+    {% if page and page.meta and page.meta.source %}
+      {% include "partials/source-link.html" %}
+    {% endif %}
+  {% endblock %}
+  {% if not "\x3ch1" in page.content %}
+    <h1>{{ page.title | default(config.site_name, true)}}</h1>
+  {% endif %}
+  {{ page.content }}
+  {% if page and page.meta %}
+    {% if page.meta.git_revision_date_localized or
+          page.meta.revision_date
+    %}
+      {% include "partials/source-date.html" %}
+    {% endif %}
+  {% endif %}
+{% endblock %}

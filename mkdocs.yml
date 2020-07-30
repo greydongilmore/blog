@@ -1,0 +1,127 @@
+
+# Project information
+site_name: Blog
+site_url: https://greydongilmore.com/blog/
+site_author: 
+site_description: 
+
+# Repository
+repo_name: 
+repo_url: https://github.com/greydongilmore/blog
+edit_uri: https://github.com/greydongilmore/blog/blob/master/docs
+issues_url: https://github.com/greydongilmore/blog/issues/new/choose
+
+# Copyright
+copyright: Copyright &copy; 2020 Greydon Gilmore
+
+dev_addr: 127.0.0.1:7000
+use_directory_urls: false
+
+# Configuration
+theme:
+  name: material
+  custom_dir: material
+
+  # 404 page
+  static_templates:
+    - 404.html
+
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+
+  # Default values, taken from mkdocs_theme.yml
+  language: en
+  palette:
+    primary: blue
+    accent: blue
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: logo
+  favicon: assets/favicon.png
+
+extra_css:
+  - stylesheets/extra.css
+
+# Plugins
+plugins:
+  - search
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.4.4/dist/mermaid.min.js
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/greydongilmore
+    #- icon: fontawesome/brands/twitter
+    #  link: 
+    #- icon: fontawesome/brands/linkedin
+    #  link: 
+    #- icon: fontawesome/brands/instagram
+    #  link: 
+
+# Extensions
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  # - pymdownx.highlight:
+  #     linenums_style: pymdownx-inline
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree
+nav:
+  - Home: _index.md
+  - PhD Related:
+      - GitHub Desktop: phd_related/install-github-desktop/_index.md
+      - Reading Academic Papers: phd_related/reading-academic-papers/_index.md
+  - Operating System Tips:
+      - Ubuntu 18.04/20.04: 
+          - Chrome Remote Desktop: operating_systems/linux/remote_desktop.md
+          - Remote Server Desktop App: operating_systems/linux/server_shortcut.md
+          - Desktop App Launcher: operating_systems/linux/app_icon.md
+      - WSL (Windows 10):
+          - Advanced Normalization Tools: operating_systems/wsl/ants.md
+          - Automatic Registration Toolbox: operating_systems/wsl/art.md
+          - Make/Cmake: operating_systems/wsl/cmake.md
+          - dcm2niix: operating_systems/wsl/dcm2niix.md
+          - Freesurfer: operating_systems/wsl/freesurfer.md
+          - FMRIB Software Library: operating_systems/wsl/fsl.md
+          - NiftyReg: operating_systems/wsl/niftyreg.md
+          - Terminator: operating_systems/wsl/terminator.md
+          - WSL: operating_systems/wsl/wsl.md
+          - WSL2: operating_systems/wsl/wsl2.md
+      - Windows 10:
+          - Obtain Product Key: operating_systems/windows/product_key.md
+          - SSHFS: operating_systems/windows/sshfs.md
