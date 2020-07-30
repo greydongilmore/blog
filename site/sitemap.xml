@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
-     <loc>https://greydongilmore.com/blog/phd_related/install-github-desktop/_index.html</loc>
+     <loc>https://greydongilmore.com/blog/index.html</loc>
      <lastmod>2020-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://greydongilmore.com/blog/phd_related/reading-academic-papers/_index.html</loc>
+     <loc>https://greydongilmore.com/blog/phd_related/index.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/phd_related/mendeley_decrypt.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/phd_related/install-github-desktop/index.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/phd_related/reading-academic-papers/index.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/operating_systems/linux/index.html</loc>
      <lastmod>2020-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -17,6 +33,10 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://greydongilmore.com/blog/operating_systems/linux/app_icon.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/operating_systems/wsl/index.html</loc>
      <lastmod>2020-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -49,6 +69,18 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://greydongilmore.com/blog/operating_systems/wsl/terminator.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/operating_systems/wsl/wsl.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/operating_systems/wsl/wsl2.html</loc>
+     <lastmod>2020-07-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://greydongilmore.com/blog/operating_systems/windows/index.html</loc>
      <lastmod>2020-07-30</lastmod>
      <changefreq>daily</changefreq>
     </url><url>

@@ -104,15 +104,18 @@ markdown_extensions:
 nav:
   - Home: index.md
   - PhD Related:
+      - Overview: phd_related/index.md
       - Decrypt Mendeley: phd_related/mendeley_decrypt.md
-      - GitHub Desktop: phd_related/install-github-desktop/_index.md
-      - Reading Academic Papers: phd_related/reading-academic-papers/_index.md
+      - GitHub Desktop: phd_related/install-github-desktop/index.md
+      - Reading Academic Papers: phd_related/reading-academic-papers/index.md
   - Operating System Tips:
-      - Ubuntu 18.04/20.04: 
+      - Ubuntu 18.04/20.04:
+          - Overview: operating_systems/linux/index.md
           - Chrome Remote Desktop: operating_systems/linux/remote_desktop.md
           - Remote Server Desktop App: operating_systems/linux/server_shortcut.md
           - Desktop App Launcher: operating_systems/linux/app_icon.md
       - WSL (Windows 10):
+          - Overview: operating_systems/wsl/index.md
           - Advanced Normalization Tools: operating_systems/wsl/ants.md
           - Automatic Registration Toolbox: operating_systems/wsl/art.md
           - Make/Cmake: operating_systems/wsl/cmake.md
@@ -124,5 +127,6 @@ nav:
           - WSL: operating_systems/wsl/wsl.md
           - WSL2: operating_systems/wsl/wsl2.md
       - Windows 10:
+          - Overview: operating_systems/windows/index.md
           - Obtain Product Key: operating_systems/windows/product_key.md
           - SSHFS: operating_systems/windows/sshfs.md
