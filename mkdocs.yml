@@ -33,8 +33,8 @@ theme:
   # Default values, taken from mkdocs_theme.yml
   language: en
   palette:
-    primary: blue
-    accent: blue
+    primary: 3f51b5
+    accent: 3f51b5
   font:
     text: Roboto
     code: Roboto Mono
