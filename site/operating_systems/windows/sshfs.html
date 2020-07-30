@@ -663,8 +663,12 @@
   
   <h1 id="mount-remote-drive-with-sshfs">Mount Remote Drive with SSHFS<a class="headerlink" href="#mount-remote-drive-with-sshfs" title="Permanent link">&para;</a></h1>
 <ol>
-<li>Install the latest stable installer of <a href="https://github.com/billziss-gh/winfsp/releases">WinFSP</a></li>
-<li>Install the latest stable installer of <a href="https://github.com/billziss-gh/sshfs-win/releases">SSHFS-Win</a></li>
+<li>
+<p>Install the latest stable installer of <a href="https://github.com/billziss-gh/winfsp/releases">WinFSP</a></p>
+</li>
+<li>
+<p>Install the latest stable installer of <a href="https://github.com/billziss-gh/sshfs-win/releases">SSHFS-Win</a></p>
+</li>
 <li>
 <p>Open <strong>File Explorer</strong>, right-click on <strong>This PC</strong> and choose <strong>Map network drive</strong>. Choose a drive to mount at and enter the following in the folder field:</p>
 <div class="highlight"><pre><span></span><code><span class="go">\\sshfs\[your_login_name]@graham.computecanada.ca/projects/rrg-akhanf/cfmm-bids</span>
@@ -673,18 +677,13 @@
 </li>
 <li>
 <p>Ensure you check the box <strong>Connect using different credentials</strong> if your computer login password is different from Sharcnet.</p>
+<p><p align="center"><img width="500" src="img/map_network_sshfs.png"></p></p>
+</li>
+<li>
+<p>You should then see the network drive in your file explorer!</p>
+<p><p align="center"><img width="600" src="img/drive_directory.png"></p></p>
 </li>
 </ol>
-<p align="center">
-  <img width="500" src="img/map_network_sshfs.png">
-</p>
-
-<ol>
-<li>You should then see the network drive in your file explorer!</li>
-</ol>
-<p align="center">
-  <img width="600" src="img/drive_directory.png">
-</p>
   
     
   

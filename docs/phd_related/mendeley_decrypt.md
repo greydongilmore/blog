@@ -10,9 +10,11 @@ In an effort to stop users from porting their databases to other software like Z
 This method is working on Linux (Ubuntu 20.04 and Pop!_OS 20.04).
 
 You will need to install:
+
 * gdm: `sudo apt-get install -y gdm`
 
 Mendeley should be installed in either two ways:
+
 * Flatpak app
 * from a `.deb` file
 
