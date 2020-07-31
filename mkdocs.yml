@@ -38,9 +38,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  icon:
-    logo: logo
-  favicon: assets/favicon.png
+  logo: assets/images/brain_white_icon.svg
+  favicon: assets/images/brain_icon.svg
 
 extra_css:
   - stylesheets/extra.css
