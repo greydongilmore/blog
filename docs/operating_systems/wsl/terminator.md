@@ -7,20 +7,31 @@ template: overrides/main.html
 
 To run an X Window application, you will need to have an X Server installed and running on your Windows 10 machine. The most popular application is: [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
 
-After installing, VcXsrv creates a desktop shortcut. To start the server in multi-window mode run the following command in a command prompt:
+After installing, VcXsrv creates a desktop shortcut. To start the server in multi-window mode run the following command in a command prompt (not in the Bash terminal):
 
 ```console
 "C:\Program Files\VcXsrv\vcxsrv.exe" :0 -ac -terminate -lesspointer -multiwindow -clipboard -wgl -dpi auto
 ```
 
+The first time you run the above command you will have to `Allow Access` when the Windows defender notice appears.
+
 ## Configuring Terminator
-Once VcXsrv is installed, the next step is to install Terminator on WSL Bash:
+
+Once VcXsrv is installed, the next step is to install Terminator on WSL Bash.
+
+First, make sure you have updated packages:
+
+```console
+sudo apt update && sudo apt upgrade
+```
+
+Then install:
 
 ```console
 sudo apt-get install terminator
 ```
 
-Terminator will not initalize a config file so you will need to do this manually:
+Terminator will not initalize a config file so you will need to do this manually (you will get an error at the next step if you do not have a config file set):
 
 ```console
 mkdir -p ~/.config/terminator
@@ -30,7 +41,7 @@ touch ~/.config/terminator/config
 Try launching Terminator by specifying the X Display to connect to (:0) in the linux shell:
 
 ```console
-DISPLAY=:0 terminator &
+DISPLAY=$(awk '/nameserver/ {print $2}' /etc/resolv.conf):0 terminator &
 ```
 
 If you receive an error about D-Bus (```No D-BUS daemon running```) then press `CTRL+C` to abort the previous command and run the following:
@@ -43,22 +54,23 @@ sudo service dbus start
 Once you have completed the above run the previous command again:
 
 ```console
-DISPLAY=:0 terminator &
+DISPLAY=$(awk '/nameserver/ {print $2}' /etc/resolv.conf):0 terminator &
 ```
 
 A nice Terminator window should pop up.
 
 ## Installing Zsh
 
-The next step is to install Zsh with oh-my-zsh. Installation is straightfoward:
+The next step is to install Zsh with oh-my-zsh. Installation is straightfoward (perform in the original linux terminal, not in terminator):
 
 ```console
 sudo apt-get install curl wget git zsh
 curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash
 ```
+
 You may receive a message `Password: chsh: PAM: Authentication failure` you can ignore this.
 
-Set the theme to "ys" at line 11 by replacing `robbyrussell` in ```.zshrc```:
+Set the theme to "ys" at line 11 by replacing `robbyrussell` in `.zshrc`:
 
 ```console
 vi ~/.zshrc
@@ -119,31 +131,36 @@ wget https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolor
 mv dircolors.256dark .dir_colors
 ```
 
-Finally, added this to your ```.zshrc``` to eval the Solarized dircolors on startup:
+Finally, added this to your `.zshrc` to eval the Solarized dircolors on startup:
 
 ```console
+vi ~/.zshrc
+```
+
+```
 if [ -f ~/.dir_colors ]; then
   eval `dircolors ~/.dir_colors`
 fi
 ```
 
 ## Launching Terminator Directly
+
 To launch a hidden command window using the WShell Object in VBS you need to type the folowing script into a text document. 
 
 Right click on your desktop and create a new text doc. Then copy the following and save the file with the .vbs extension (e.g. startTerminator.vbs):
 
 ```
-args = "-c" & " -l " & """DISPLAY=:0 terminator"""
+args = "-ac" & " -l " & """DISPLAY=$(awk '/nameserver/ {print $2}' /etc/resolv.conf):0 terminator"""
 WScript.CreateObject("Shell.Application").ShellExecute "bash", args, "", "open", 0
 ```
 
-Move this ```.vbs``` file into a safe place such as "C:\Users\[your_username]". Right click on the file and 'Send to' the desktop as a shortcut. Right click on the new shortcut and select properties. In the 'Target' field type:
+Move this `.vbs` file into a safe place such as "C:\Users\[your_username]\Documents\scripts". Right click on the file and 'Send to' the desktop as a shortcut. Right click on the new shortcut and select properties. In the 'Target' field type (you will just need to add `C:\Windows\System32\wscript.exe` to the beginning):
 
 ```
-C:\Windows\System32\wscript.exe C:\Users\*[your_username]*\startTerminator.vbs
+C:\Windows\System32\wscript.exe C:\Users\[your_username]\Documents\scripts\startTerminator.vbs
 ```
 
-Click 'Apply'. You can then set the icon of the shortcut by saving [this icon file](https://www.google.com/imgres?imgurl=http://www.iconarchive.com/download/i89875/alecive/flatwoken/Apps-Terminator.ico&imgrefurl=http://www.iconarchive.com/show/flatwoken-icons-by-alecive/Apps-Terminator-icon.html&docid=q0xx5aXq6WGXIM&tbnid=izoeFerwzIqyVM:&vet=1&w=256&h=256&source=sh/x/im) to the same place you saved the ```.vbs``` file. Right click on the shortcut again, properties and at the bottom select 'Change Icon...'. From here you can select the icon file you just downloaded. 
+Click 'Apply'. You can then set the icon of the shortcut by saving [this icon file](https://www.google.com/imgres?imgurl=http://www.iconarchive.com/download/i89875/alecive/flatwoken/Apps-Terminator.ico&imgrefurl=http://www.iconarchive.com/show/flatwoken-icons-by-alecive/Apps-Terminator-icon.html&docid=q0xx5aXq6WGXIM&tbnid=izoeFerwzIqyVM:&vet=1&w=256&h=256&source=sh/x/im) to the same place you saved the `startTerminator.vbs` file. Right click on the shortcut again, properties and at the bottom select 'Change Icon...'. From here you can select the icon file you just downloaded. 
 
 In the 'Start in' field type:
 
@@ -151,7 +168,7 @@ In the 'Start in' field type:
 %USERPROFILE%
 ```
 
-It's impossible to have Termiator start in your Linux home directory through this method since that path is not "known" to Windows. To get around it, add this to your .zshrc so it CD's to your home directory on startup:
+It's impossible to have Termiator start in your Linux home directory through this method since that path is not "known" to Windows. To get around it, add this to your `.zshrc` so it CD's to your home directory on startup:
 
 ```console
 vi ~/.zshrc
