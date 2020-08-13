@@ -9,7 +9,7 @@ Download the latest code into an arbitrary directory, I use `~/code`:
 
 ```console
 cd ~/code
-mkdir ants_{build,install,source}
+mkdir ants_{build,source}
 git clone https://github.com/ANTsX/ANTs.git ./ants_source
 ```
 

@@ -15,7 +15,7 @@ Now create a build, install and source directory for NiftyReg:
 
 ```console
 cd ~/code
-mkdir niftyreg_{build,install,source}
+mkdir niftyreg_{build,source}
 ```
 
 Obtain the newest version of [NiftyReg](https://sourceforge.net/projects/niftyreg/files/latest/download) or by running the following:
