@@ -36,7 +36,12 @@ Now you are back at the command line, it's time to compile. To save time, you ca
 sudo make -j2
 ```
 
-The build and install will happen together so you will not need to run `make install`.
+This will take awhile, once complete you need to `cd` into the `ANTS-build` directory and run `make install`:
+
+```console
+cd ANTS-build
+sudo make install
+```
 
 ## Post-install Configuration
 
