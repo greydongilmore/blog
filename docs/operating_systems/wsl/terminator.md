@@ -180,6 +180,12 @@ if [ -t 1 ]; then
 fi
 ```
 
+If you get an error about `EPOCHREALTIME` and/or `EPOCHSECONDS`, add the following to `.zshrc` on the line right before the command `source $ZSH/oh-my-zsh.sh` (around line 73):
+
+```
+unset EPOCHREALTIME EPOCHSECONDS
+```
+
 ## Other customizations
 
 If you want to further modify your terminator theme you can add lines to the file ```~/.config/terminator/config```.
