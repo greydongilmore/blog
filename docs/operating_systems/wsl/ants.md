@@ -48,7 +48,7 @@ sudo make install
 If you want to use ANTs scripts, copy them from the source directory `/ants_source/Scripts/` to the `/opt/ANTs/bin` directory where `antsRegistration` etc are located:
 
 ```console
-cp -r ~/code/ants_source/Scripts/* /opt/ANTs/bin/
+sudo cp -r ~/code/ants_source/Scripts/* /opt/ANTs/bin/
 ```
 
 After the build, there will be a binary directory `/opt/ANTs/bin` that contains the programs (and scripts if you've included them). The scripts additionally require ANTSPATH to point to the bin directory including a trailing slash.
@@ -56,7 +56,7 @@ After the build, there will be a binary directory `/opt/ANTs/bin` that contains 
 You will need to edit your ```.profile``` file by adding the following lines:
 
 ```console
-export ANTSPATH=${HOME}/opt/ANTs/bin
+export ANTSPATH=/opt/ANTs/bin
 export PATH=${ANTSPATH}:$PATH
 ```
 
