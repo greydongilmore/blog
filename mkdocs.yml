@@ -50,6 +50,9 @@ plugins:
 
 extra_javascript:
   - https://unpkg.com/mermaid@8.4.4/dist/mermaid.min.js
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 # Customization
 extra:
@@ -72,7 +75,8 @@ markdown_extensions:
   - markdown.extensions.meta
   - markdown.extensions.toc:
       permalink: true
-  - pymdownx.arithmatex
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.betterem:
       smart_enable: all
   - pymdownx.caret
@@ -129,3 +133,12 @@ nav:
           - Overview: operating_systems/windows/index.md
           - Obtain Product Key: operating_systems/windows/product_key.md
           - SSHFS: operating_systems/windows/sshfs.md
+  - Python Intro:
+      - Basics:
+          - Operations: python_intro/01_01_python_basics_operations.md
+          - Numpy: python_intro/01_02_python_basics_numpy.md
+          - Pandas: python_intro/01_03_python_basics_pandas.md
+      - Plotting:
+          - Matplotlib: python_intro/02_02_plotting_matplotlib.md
+  - Machine Learning:
+      - Signal Processing: machine_learning/signal_processing.md
