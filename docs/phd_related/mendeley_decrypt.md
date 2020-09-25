@@ -98,7 +98,9 @@ Mendeley should be installed in either two ways:
     0x25f1818:	"/home/greydon/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite"
     ```
 
-8. Now, set a breakpoint for the moment the key is supplied to SQLite Encryption Extension by using `b sqlite3_key`:
+8. You will need to continue (`c`) until you see the same database filename appear again (`x/s $rdi`), usually happens immediately after the first appearance.
+
+9. Now, set a breakpoint for the moment the key is supplied to SQLite Encryption Extension by using `b sqlite3_key`:
 
     ```console
     # Set a new breakpoint
@@ -110,7 +112,7 @@ Mendeley should be installed in either two ways:
     Continuing.
     ```
 
-    when the subsequent breakpoint is hit, enter `info registers` to determine the value of `rdi`:
+10. When the subsequent breakpoint is hit, enter `info registers` to determine the value of `rdi`:
 
     ```console
     # When the breakpoint is hit, run `info registers`
@@ -142,7 +144,7 @@ Mendeley should be installed in either two ways:
     gs             0x0	            0
     ```
 
-9. Copy down the value of `rdi` from the second column of the `info registers` output. It is the pointer to the open SQLite database handle. Then, finish execution of sqlite3_key by running `fin`.
+11. Copy down the value of `rdi` from the second column of the `info registers` output. It is the pointer to the open SQLite database handle. Then, finish execution of sqlite3_key by running `fin`.
 
     ```console
     (gdb) fin
@@ -150,28 +152,28 @@ Mendeley should be installed in either two ways:
     0x0000000000f94e54 in SqliteDatabase::openInternal(QString const&, SqlDatabaseKey*) ()
     ```
 
-10. Use gdb’s ability to call C functions to `rekey` the database to the null key, thereby decrypting it in-place and allowing export of the SQL data:
+12. Use gdb’s ability to call C functions to `rekey` the database to the null key, thereby decrypting it in-place and allowing export of the SQL data:
 
     ```console
     (gdb) p (int) sqlite3_rekey_v2(0x25ef4e8, 0, 0, 0)
     $1 = 0
     ```
 
-11. If you see `$1 = 0` from the `rekey` command then you are ready to export the SQL data (step 12), if you see `$1 = 8` then you need to follow the below steps.
+13. If you see `$1 = 0` from the `rekey` command then you are ready to export the SQL data (step 14), if you see `$1 = 8` then you need to follow the below steps.
     * Mendeley will sometimes re-open the database a few times during startup sp this may  have caused the error
     * To work around the random opening of the database, check if the program opens the main database a second time 
-    * Run step 7-8 again up tp the `p sqlite3_rekey_v2(...)` step, but do not run `sqlite3_rekey_v2`
+    * Run step 7-8 again up to the `p sqlite3_rekey_v2(...)` step, but do not run `sqlite3_rekey_v2`
     * Instead, just type `c` to continue, returning to the step where you inspect each call to `sqlite3_open_v2`, waiting for one with `$rdi` pointing to a string with the right database filename. When you see it come round again, then try the `sqlite3_rekey_v2` step
     * If you see `$1 = 0` this time, you’re all set, and can proceed as described above for a successful call to `sqlite3_rekey_v2`
 
-12. Once the database is decrypted it is a good idea to save a copy of the database to a new location:
+14. Once the database is decrypted it is a good idea to save a copy of the database to a new location:
 
     ```console
     cd ~/.var/app/com.elsevier.MendeleyDesktop/data/data/Mendeley\ Ltd./Mendeley\ Desktop/
     cp 579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite ~/backup-decrypted.sqlite
     ```
 
-13. Now you can quit `gbd`:
+15. Now you can quit `gbd`:
 
     ```console
     (gdb) quit
@@ -189,14 +191,11 @@ Mendeley should be installed in either two ways:
     [📦 com.elsevier.MendeleyDesktop ~]$ exit
     ```
 
-14. Lastly, restore your backup copy of the encrypted database, so that Mendeley will continue to run OK:
+16. Lastly, restore your backup copy of the encrypted database, so that Mendeley will continue to run OK:
 
     ```console
     cd ~/.var/app/com.elsevier.MendeleyDesktop/data/data/Mendeley\ Ltd./Mendeley\ Desktop/
     cp ~/backup-encrypted.sqlite 579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite
     ```
 
-15. You can now use software like [SQLite Browser](https://sqlitebrowser.org/) to open and view the database (`~/backup-decrypted.sqlite`)
-
-
-
+17. You can now use software like [SQLite Browser](https://sqlitebrowser.org/) to open and view the database (`~/backup-decrypted.sqlite`)
