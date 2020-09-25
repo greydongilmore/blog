@@ -79,7 +79,7 @@ Mendeley should be installed in either two ways:
     # Run x/s $rdi and look at the filename
     Thread 1 "mendeleydesktop" hit Breakpoint 1, 0x000000000101b1b0 in sqlite3_open_v2 ()
     (gdb) x/s $rdi
-    0x1dca928:	"/home/greydon/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/Settings.sqlite"
+    0x1dca928:	"~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/Settings.sqlite"
 
     # Enter c to continue
     (gdb) c
@@ -87,13 +87,13 @@ Mendeley should be installed in either two ways:
 
     Thread 1 "mendeleydesktop" hit Breakpoint 1, 0x000000000101b1b0 in sqlite3_open_v2 ()
     (gdb) x/s $rdi
-    0x1dcb318:	"/home/greydon/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/Settings.sqlite"
+    0x1dcb318:	"~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/Settings.sqlite"
     (gdb) c
 
     # Keep repeating the above until you find the .sqlite file that you backed up earlier
     Thread 1 "mendeleydesktop" hit Breakpoint 1, 0x000000000101b1b0 in sqlite3_open_v2 ()
     (gdb) x/s $rdi
-    0x25f1818:	"/home/greydon/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite"
+    0x25f1818:	"~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley Ltd./Mendeley Desktop/579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite"
     ```
 
 8. You will need to continue (`c`) until you see the same database filename appear again (`x/s $rdi`), usually happens immediately after the first appearance.
