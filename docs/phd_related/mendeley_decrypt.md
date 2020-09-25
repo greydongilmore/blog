@@ -59,8 +59,6 @@ Mendeley should be installed in either two ways:
     # Run gdb within the Flatpak sandbox
     [📦 com.elsevier.MendeleyDesktop ~]$ QT_QPA_PLATFORM_PLUGIN_PATH=/app/extra/plugins/qt/plugins/platforms/ gdb --args /app/extra/bin/mendeleydesktop
 
-    # Once inside (gdb) run the following
-    (gdb) set unwindonsignal on
     ```
 
 5. Add a breakpoint that captures the moment a SQLite database is opened:
