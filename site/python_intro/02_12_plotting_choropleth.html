@@ -1,0 +1,1337 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://greydongilmore.com/blog/python_intro/02_12_plotting_choropleth.html">
+      
+      
+      <link rel="shortcut icon" href="../assets/images/brain_icon.svg">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.3.3">
+    
+    
+      
+        <title>Choropleth Maps</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.545621a7.min.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/palette.36d1b78f.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="3f51b5" data-md-color-accent="3f51b5">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#offline-plotly-usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://greydongilmore.com/blog/" title="Blog" class="md-header-nav__button md-logo" aria-label="Blog">
+      
+  <img src="../assets/images/brain_white_icon.svg" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Blog
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Choropleth Maps
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/greydongilmore/blog/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://greydongilmore.com/blog/" title="Blog" class="md-nav__button md-logo" aria-label="Blog">
+      
+  <img src="../assets/images/brain_white_icon.svg" alt="logo">
+
+    </a>
+    Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/greydongilmore/blog/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      PhD Related
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="PhD Related" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        PhD Related
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/mendeley_decrypt.html" title="Decrypt Mendeley" class="md-nav__link">
+      Decrypt Mendeley
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/install-github-desktop/index.html" title="GitHub Desktop" class="md-nav__link">
+      GitHub Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/reading-academic-papers/index.html" title="Reading Academic Papers" class="md-nav__link">
+      Reading Academic Papers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Operating System Tips
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Operating System Tips" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Operating System Tips
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Ubuntu 18.04/20.04
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Ubuntu 18.04/20.04" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Ubuntu 18.04/20.04
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/remote_desktop.html" title="Chrome Remote Desktop" class="md-nav__link">
+      Chrome Remote Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/server_shortcut.html" title="Remote Server Desktop App" class="md-nav__link">
+      Remote Server Desktop App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/app_icon.html" title="Desktop App Launcher" class="md-nav__link">
+      Desktop App Launcher
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      WSL (Windows 10)
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="WSL (Windows 10)" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        WSL (Windows 10)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/ants.html" title="Advanced Normalization Tools" class="md-nav__link">
+      Advanced Normalization Tools
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/art.html" title="Automatic Registration Toolbox" class="md-nav__link">
+      Automatic Registration Toolbox
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/cmake.html" title="Make/Cmake" class="md-nav__link">
+      Make/Cmake
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/dcm2niix.html" title="dcm2niix" class="md-nav__link">
+      dcm2niix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/freesurfer.html" title="Freesurfer" class="md-nav__link">
+      Freesurfer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/fsl.html" title="FMRIB Software Library" class="md-nav__link">
+      FMRIB Software Library
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/niftyreg.html" title="NiftyReg" class="md-nav__link">
+      NiftyReg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/terminator.html" title="Terminator" class="md-nav__link">
+      Terminator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/wsl.html" title="WSL" class="md-nav__link">
+      WSL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/wsl2.html" title="WSL2" class="md-nav__link">
+      WSL2
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Windows 10
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Windows 10" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Windows 10
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/product_key.html" title="Obtain Product Key" class="md-nav__link">
+      Obtain Product Key
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/sshfs.html" title="SSHFS" class="md-nav__link">
+      SSHFS
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Python Intro
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Python Intro" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Python Intro
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Basics
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Basics" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Basics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="01_01_python_basics_operations.html" title="Operations" class="md-nav__link">
+      Operations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="01_02_python_basics_numpy.html" title="Numpy" class="md-nav__link">
+      Numpy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="01_03_python_basics_pandas.html" title="Pandas" class="md-nav__link">
+      Pandas
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Plotting
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Plotting" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Plotting
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="02_02_plotting_matplotlib.html" title="Matplotlib" class="md-nav__link">
+      Matplotlib
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Machine Learning
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Machine Learning" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Machine Learning
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../machine_learning/signal_processing.html" title="Signal Processing" class="md-nav__link">
+      Signal Processing
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/greydongilmore/blog/blob/master/docs/python_intro/02_12_plotting_choropleth.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  
+                
+                
+                <h2 id="offline-plotly-usage">Offline Plotly Usage<a class="headerlink" href="#offline-plotly-usage" title="Permanent link">&para;</a></h2>
+<p>Get imports and set everything up to be working offline.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">chart_studio.plotly</span> <span class="k">as</span> <span class="nn">py</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span> 
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">download_plotlyjs</span><span class="p">,</span> <span class="n">init_notebook_mode</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">iplot</span>
+</code></pre></div>
+
+<p>Now set up everything so that the figures show up in the notebook:</p>
+<div class="highlight"><pre><span></span><code><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+</code></pre></div>
+
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+<p>More info on other options for Offline Plotly usage can be found <a href="https://plot.ly/python/offline/">here</a>.</p>
+<h2 id="choropleth-us-maps">Choropleth US Maps<a class="headerlink" href="#choropleth-us-maps" title="Permanent link">&para;</a></h2>
+<p>Plotly's mapping can be a bit hard to get used to at first, remember to reference the cheat sheet in the data visualization folder, or <a href="https://images.plot.ly/plotly-documentation/images/python_cheat_sheet.pdf">find it online here</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+
+<p>Now we need to begin to build our data dictionary. Easiest way to do this is to use the <strong>dict()</strong> function of the general form:</p>
+<ul>
+<li>type = 'choropleth',</li>
+<li>locations = list of states</li>
+<li>locationmode = 'USA-states'</li>
+<li>colorscale= </li>
+</ul>
+<p>Either a predefined string:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">&#39;pairs&#39; | &#39;Greys&#39; | &#39;Greens&#39; | &#39;Bluered&#39; | &#39;Hot&#39; | &#39;Picnic&#39; | &#39;Portland&#39; | &#39;Jet&#39; | &#39;RdBu&#39; | &#39;Blackbody&#39; | &#39;Earth&#39; | &#39;Electric&#39; | &#39;YIOrRd&#39; | &#39;YIGnBu&#39;</span>
+</code></pre></div>
+
+
+<p>or create a <a href="https://plot.ly/python/heatmap-and-contour-colorscales/">custom colorscale</a></p>
+<ul>
+<li>text= list or array of text to display per point</li>
+<li>z= array of values on z axis (color of state)</li>
+<li>colorbar = {'title':'Colorbar Title'})</li>
+</ul>
+<p>Here is a simple example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;choropleth&#39;</span><span class="p">,</span>
+            <span class="n">locations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AZ&#39;</span><span class="p">,</span><span class="s1">&#39;CA&#39;</span><span class="p">,</span><span class="s1">&#39;NY&#39;</span><span class="p">],</span>
+            <span class="n">locationmode</span> <span class="o">=</span> <span class="s1">&#39;USA-states&#39;</span><span class="p">,</span>
+            <span class="n">colorscale</span><span class="o">=</span> <span class="s1">&#39;Portland&#39;</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;text1&#39;</span><span class="p">,</span><span class="s1">&#39;text2&#39;</span><span class="p">,</span><span class="s1">&#39;text3&#39;</span><span class="p">],</span>
+            <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">],</span>
+            <span class="n">colorbar</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;Colorbar Title&#39;</span><span class="p">})</span>
+</code></pre></div>
+
+<p>Then we create the layout nested dictionary:</p>
+<div class="highlight"><pre><span></span><code><span class="n">layout</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">geo</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;scope&#39;</span><span class="p">:</span><span class="s1">&#39;usa&#39;</span><span class="p">})</span>
+</code></pre></div>
+
+<p>Then we use: </p>
+<div class="codehilite"><pre><span></span><code><span class="k">go</span><span class="p">.</span><span class="n">Figure</span><span class="p">(</span><span class="k">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">data</span><span class="o">]</span><span class="p">,</span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">layout</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>to set up the object that finally gets passed into iplot()</p>
+<div class="highlight"><pre><span></span><code><span class="n">choromap</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">],</span><span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">iplot</span><span class="p">(</span><span class="n">choromap</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+
+            <div id="0ffd83f2-2d09-4b5b-a347-b966e925bea9" class="plotly-graph-div" style="height:525px; width:100%;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+
+                if (document.getElementById("0ffd83f2-2d09-4b5b-a347-b966e925bea9")) {
+                    Plotly.newPlot(
+                        '0ffd83f2-2d09-4b5b-a347-b966e925bea9',
+                        [{"colorbar": {"title": {"text": "Colorbar Title"}}, "colorscale": [[0.0, "rgb(12,51,131)"], [0.25, "rgb(10,136,186)"], [0.5, "rgb(242,211,56)"], [0.75, "rgb(242,143,56)"], [1.0, "rgb(217,30,30)"]], "locationmode": "USA-states", "locations": ["AZ", "CA", "NY"], "text": ["text1", "text2", "text3"], "type": "choropleth", "z": [1.0, 2.0, 3.0]}],
+                        {"geo": {"scope": "usa"}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}},
+                        {"responsive": true}
+                    ).then(function(){
+
+var gd = document.getElementById('0ffd83f2-2d09-4b5b-a347-b966e925bea9');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div>
+
+<h3 id="real-data-us-map-choropleth">Real Data US Map Choropleth<a class="headerlink" href="#real-data-us-map-choropleth" title="Permanent link">&para;</a></h3>
+<p>Now let's show an example with some real data as well as some other options we can add to the dictionaries in data and layout.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;2011_US_AGRI_Exports&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>code</th>
+      <th>state</th>
+      <th>category</th>
+      <th>total exports</th>
+      <th>beef</th>
+      <th>pork</th>
+      <th>poultry</th>
+      <th>dairy</th>
+      <th>fruits fresh</th>
+      <th>fruits proc</th>
+      <th>total fruits</th>
+      <th>veggies fresh</th>
+      <th>veggies proc</th>
+      <th>total veggies</th>
+      <th>corn</th>
+      <th>wheat</th>
+      <th>cotton</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AL</td>
+      <td>Alabama</td>
+      <td>state</td>
+      <td>1390.63</td>
+      <td>34.4</td>
+      <td>10.6</td>
+      <td>481.0</td>
+      <td>4.06</td>
+      <td>8.0</td>
+      <td>17.1</td>
+      <td>25.11</td>
+      <td>5.5</td>
+      <td>8.9</td>
+      <td>14.33</td>
+      <td>34.9</td>
+      <td>70.0</td>
+      <td>317.61</td>
+      <td>Alabama&lt;br&gt;Beef 34.4 Dairy 4.06&lt;br&gt;Fruits 25.1...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AK</td>
+      <td>Alaska</td>
+      <td>state</td>
+      <td>13.31</td>
+      <td>0.2</td>
+      <td>0.1</td>
+      <td>0.0</td>
+      <td>0.19</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.6</td>
+      <td>1.0</td>
+      <td>1.56</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>Alaska&lt;br&gt;Beef 0.2 Dairy 0.19&lt;br&gt;Fruits 0.0 Ve...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AZ</td>
+      <td>Arizona</td>
+      <td>state</td>
+      <td>1463.17</td>
+      <td>71.3</td>
+      <td>17.9</td>
+      <td>0.0</td>
+      <td>105.48</td>
+      <td>19.3</td>
+      <td>41.0</td>
+      <td>60.27</td>
+      <td>147.5</td>
+      <td>239.4</td>
+      <td>386.91</td>
+      <td>7.3</td>
+      <td>48.7</td>
+      <td>423.95</td>
+      <td>Arizona&lt;br&gt;Beef 71.3 Dairy 105.48&lt;br&gt;Fruits 60...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AR</td>
+      <td>Arkansas</td>
+      <td>state</td>
+      <td>3586.02</td>
+      <td>53.2</td>
+      <td>29.4</td>
+      <td>562.9</td>
+      <td>3.53</td>
+      <td>2.2</td>
+      <td>4.7</td>
+      <td>6.88</td>
+      <td>4.4</td>
+      <td>7.1</td>
+      <td>11.45</td>
+      <td>69.5</td>
+      <td>114.5</td>
+      <td>665.44</td>
+      <td>Arkansas&lt;br&gt;Beef 53.2 Dairy 3.53&lt;br&gt;Fruits 6.8...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CA</td>
+      <td>California</td>
+      <td>state</td>
+      <td>16472.88</td>
+      <td>228.7</td>
+      <td>11.1</td>
+      <td>225.4</td>
+      <td>929.95</td>
+      <td>2791.8</td>
+      <td>5944.6</td>
+      <td>8736.40</td>
+      <td>803.2</td>
+      <td>1303.5</td>
+      <td>2106.79</td>
+      <td>34.6</td>
+      <td>249.3</td>
+      <td>1064.95</td>
+      <td>California&lt;br&gt;Beef 228.7 Dairy 929.95&lt;br&gt;Frui...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Now out data dictionary with some extra marker and colorbar arguments:</p>
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;choropleth&#39;</span><span class="p">,</span>
+            <span class="n">colorscale</span> <span class="o">=</span> <span class="s1">&#39;YIOrRd&#39;</span><span class="p">,</span>
+            <span class="n">locations</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">],</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;total exports&#39;</span><span class="p">],</span>
+            <span class="n">locationmode</span> <span class="o">=</span> <span class="s1">&#39;USA-states&#39;</span><span class="p">,</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">line</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;rgb(255,255,255)&#39;</span><span class="p">,</span><span class="n">width</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">colorbar</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s2">&quot;Millions USD&quot;</span><span class="p">}</span>
+            <span class="p">)</span> 
+</code></pre></div>
+
+<p>And our layout dictionary with some more arguments:</p>
+<div class="highlight"><pre><span></span><code><span class="n">layout</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;2011 US Agriculture Exports by State&#39;</span><span class="p">,</span>
+              <span class="n">geo</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;usa&#39;</span><span class="p">,</span>
+                         <span class="n">showlakes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                         <span class="n">lakecolor</span> <span class="o">=</span> <span class="s1">&#39;rgb(85,173,240)&#39;</span><span class="p">)</span>
+             <span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">choromap</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">],</span><span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1">---------------------------------------------------------------------------</span>
+
+<span class="n">ValueError</span><span class="w">                                </span><span class="n">Traceback</span><span class="w"> </span><span class="p">(</span><span class="n">most</span><span class="w"> </span><span class="n">recent</span><span class="w"> </span><span class="k">call</span><span class="w"> </span><span class="k">last</span><span class="p">)</span><span class="w"></span>
+
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="k">input</span><span class="o">-</span><span class="mi">15</span><span class="o">-</span><span class="mi">243104</span><span class="n">ae4228</span><span class="o">&gt;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="o">&lt;</span><span class="k">module</span><span class="o">&gt;</span><span class="w"></span>
+<span class="c1">----&gt; 1 choromap = go.Figure(data = [data],layout = layout)</span>
+
+
+<span class="o">~/</span><span class="p">.</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">plotly</span><span class="o">/</span><span class="n">graph_objs</span><span class="o">/</span><span class="n">_figure</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">frames</span><span class="p">,</span><span class="w"> </span><span class="n">skip_invalid</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="mi">606</span><span class="w">             </span><span class="k">is</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="ow">AND</span><span class="w"> </span><span class="n">skip_invalid</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">False</span><span class="w"></span>
+<span class="w">    </span><span class="mi">607</span><span class="w">         </span><span class="ss">&quot;&quot;&quot;</span>
+<span class="ss">--&gt; 608         super(Figure, self).__init__(data, layout, frames, skip_invalid, **kwargs)</span>
+<span class="ss">    609 </span>
+<span class="ss">    610     def add_area(</span>
+
+
+<span class="ss">~/.local/lib/python3.6/site-packages/plotly/basedatatypes.py in __init__(self, data, layout_plotly, frames, skip_invalid, **kwargs)</span>
+<span class="ss">    155 </span>
+<span class="ss">    156         # ### Import traces ###</span>
+<span class="ss">--&gt; 157         data = self._data_validator.validate_coerce(data, skip_invalid=skip_invalid)</span>
+<span class="ss">    158 </span>
+<span class="ss">    159         # ### Save tuple of trace objects ###</span>
+
+
+<span class="ss">~/.local/lib/python3.6/site-packages/_plotly_utils/basevalidators.py in validate_coerce(self, v, skip_invalid)</span>
+<span class="ss">   2643                     else:</span>
+<span class="ss">   2644                         trace = self.class_map[trace_type](</span>
+<span class="ss">-&gt; 2645                             skip_invalid=skip_invalid, **v_copy</span>
+<span class="ss">   2646                         )</span>
+<span class="ss">   2647                         res.append(trace)</span>
+
+
+<span class="ss">~/.local/lib/python3.6/site-packages/plotly/graph_objs/__init__.py in __init__(self, arg, autocolorscale, coloraxis, colorbar, colorscale, customdata, customdatasrc, geo, hoverinfo, hoverinfosrc, hoverlabel, hovertemplate, hovertemplatesrc, hovertext, hovertextsrc, ids, idssrc, locationmode, locations, locationssrc, marker, meta, metasrc, name, reversescale, selected, selectedpoints, showscale, stream, text, textsrc, uid, uirevision, unselected, visible, z, zauto, zmax, zmid, zmin, zsrc, **kwargs)</span>
+<span class="ss">  81395         self[&quot;</span><span class="n">colorbar</span><span class="ss">&quot;] = colorbar if colorbar is not None else _v</span>
+<span class="ss">  81396         _v = arg.pop(&quot;</span><span class="n">colorscale</span><span class="ss">&quot;, None)</span>
+<span class="ss">&gt; 81397         self[&quot;</span><span class="n">colorscale</span><span class="ss">&quot;] = colorscale if colorscale is not None else _v</span>
+<span class="ss">  81398         _v = arg.pop(&quot;</span><span class="n">customdata</span><span class="ss">&quot;, None)</span>
+<span class="ss">  81399         self[&quot;</span><span class="n">customdata</span><span class="err">&quot;]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">customdata</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">customdata</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">_v</span><span class="w"></span>
+
+
+<span class="o">~/</span><span class="p">.</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">plotly</span><span class="o">/</span><span class="n">basedatatypes</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">__setitem__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3477</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="err">###</span><span class="w"> </span><span class="n">Handle</span><span class="w"> </span><span class="n">simple</span><span class="w"> </span><span class="n">property</span><span class="w"> </span><span class="err">###</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3478</span><span class="w">             </span><span class="k">else</span><span class="err">:</span><span class="w"></span>
+<span class="o">-&gt;</span><span class="w"> </span><span class="mi">3479</span><span class="w">                 </span><span class="n">self</span><span class="p">.</span><span class="n">_set_prop</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3480</span><span class="w"> </span>
+<span class="w">   </span><span class="mi">3481</span><span class="w">         </span><span class="err">#</span><span class="w"> </span><span class="n">Handle</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">scalar</span><span class="w"> </span><span class="k">case</span><span class="w"></span>
+
+
+<span class="o">~/</span><span class="p">.</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">plotly</span><span class="o">/</span><span class="n">basedatatypes</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">_set_prop</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3764</span><span class="w">                 </span><span class="k">return</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3765</span><span class="w">             </span><span class="k">else</span><span class="err">:</span><span class="w"></span>
+<span class="o">-&gt;</span><span class="w"> </span><span class="mi">3766</span><span class="w">                 </span><span class="n">raise</span><span class="w"> </span><span class="n">err</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3767</span><span class="w"> </span>
+<span class="w">   </span><span class="mi">3768</span><span class="w">         </span><span class="err">#</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">None</span><span class="w"></span>
+
+
+<span class="o">~/</span><span class="p">.</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">plotly</span><span class="o">/</span><span class="n">basedatatypes</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">_set_prop</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3759</span><span class="w">         </span><span class="n">validator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">_validators</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3760</span><span class="w">         </span><span class="k">try</span><span class="err">:</span><span class="w"></span>
+<span class="o">-&gt;</span><span class="w"> </span><span class="mi">3761</span><span class="w">             </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">validator</span><span class="p">.</span><span class="n">validate_coerce</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3762</span><span class="w">         </span><span class="ow">except</span><span class="w"> </span><span class="n">ValueError</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nl">err</span><span class="p">:</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3763</span><span class="w">             </span><span class="k">if</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="nl">_skip_invalid</span><span class="p">:</span><span class="w"></span>
+
+
+<span class="o">~/</span><span class="p">.</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">_plotly_utils</span><span class="o">/</span><span class="n">basevalidators</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">validate_coerce</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">1619</span><span class="w"> </span>
+<span class="w">   </span><span class="mi">1620</span><span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nl">v_valid</span><span class="p">:</span><span class="w"></span>
+<span class="o">-&gt;</span><span class="w"> </span><span class="mi">1621</span><span class="w">             </span><span class="n">self</span><span class="p">.</span><span class="n">raise_invalid_val</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="mi">1622</span><span class="w"> </span>
+<span class="w">   </span><span class="mi">1623</span><span class="w">         </span><span class="k">return</span><span class="w"> </span><span class="n">v</span><span class="w"></span>
+
+
+<span class="o">~/</span><span class="p">.</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">_plotly_utils</span><span class="o">/</span><span class="n">basevalidators</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">raise_invalid_val</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">inds</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="mi">281</span><span class="w">                 </span><span class="n">typ</span><span class="o">=</span><span class="n">type_str</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="mi">282</span><span class="w">                 </span><span class="n">v</span><span class="o">=</span><span class="n">repr</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="w"></span>
+<span class="c1">--&gt; 283                 valid_clr_desc=self.description(),</span>
+<span class="w">    </span><span class="mi">284</span><span class="w">             </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="mi">285</span><span class="w">         </span><span class="p">)</span><span class="w"></span>
+
+
+<span class="nl">ValueError</span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="n">Invalid</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="s1">&#39;builtins.str&#39;</span><span class="w"> </span><span class="n">received</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="s1">&#39;colorscale&#39;</span><span class="w"> </span><span class="n">property</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">choropleth</span><span class="w"></span>
+<span class="w">        </span><span class="n">Received</span><span class="w"> </span><span class="k">value</span><span class="err">:</span><span class="w"> </span><span class="s1">&#39;YIOrRd&#39;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">The</span><span class="w"> </span><span class="s1">&#39;colorscale&#39;</span><span class="w"> </span><span class="n">property</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">colorscale</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"></span>
+<span class="w">    </span><span class="n">specified</span><span class="w"> </span><span class="k">as</span><span class="err">:</span><span class="w"></span>
+<span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">spaced</span><span class="w"> </span><span class="n">evenly</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">colorscale</span><span class="p">.</span><span class="w"></span>
+<span class="w">        </span><span class="n">Many</span><span class="w"> </span><span class="n">predefined</span><span class="w"> </span><span class="n">colorscale</span><span class="w"> </span><span class="n">lists</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">included</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">sequential</span><span class="p">,</span><span class="w"> </span><span class="n">diverging</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="ow">and</span><span class="w"> </span><span class="n">cyclical</span><span class="w"> </span><span class="n">modules</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">plotly</span><span class="p">.</span><span class="n">colors</span><span class="w"> </span><span class="n">package</span><span class="p">.</span><span class="w"></span>
+<span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="mi">2</span><span class="o">-</span><span class="k">element</span><span class="w"> </span><span class="n">lists</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">first</span><span class="w"> </span><span class="k">element</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="w">        </span><span class="n">normalized</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">(</span><span class="n">starting</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">ending</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span>
+<span class="w">        </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">second</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="n">string</span><span class="p">.</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span><span class="w"> </span><span class="o">[</span><span class="n">[0, &#39;green&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">0.5, &#39;red&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">1.0, &#39;rgb(0, 0, 255)&#39;</span><span class="o">]</span><span class="err">]</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">One</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">named</span><span class="w"> </span><span class="nl">colorscales</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="o">[</span><span class="n">&#39;aggrnyl&#39;, &#39;agsunset&#39;, &#39;algae&#39;, &#39;amp&#39;, &#39;armyrose&#39;, &#39;balance&#39;,</span>
+<span class="n">             &#39;blackbody&#39;, &#39;bluered&#39;, &#39;blues&#39;, &#39;blugrn&#39;, &#39;bluyl&#39;, &#39;brbg&#39;,</span>
+<span class="n">             &#39;brwnyl&#39;, &#39;bugn&#39;, &#39;bupu&#39;, &#39;burg&#39;, &#39;burgyl&#39;, &#39;cividis&#39;, &#39;curl&#39;,</span>
+<span class="n">             &#39;darkmint&#39;, &#39;deep&#39;, &#39;delta&#39;, &#39;dense&#39;, &#39;earth&#39;, &#39;edge&#39;, &#39;electric&#39;,</span>
+<span class="n">             &#39;emrld&#39;, &#39;fall&#39;, &#39;geyser&#39;, &#39;gnbu&#39;, &#39;gray&#39;, &#39;greens&#39;, &#39;greys&#39;,</span>
+<span class="n">             &#39;haline&#39;, &#39;hot&#39;, &#39;hsv&#39;, &#39;ice&#39;, &#39;icefire&#39;, &#39;inferno&#39;, &#39;jet&#39;,</span>
+<span class="n">             &#39;magenta&#39;, &#39;magma&#39;, &#39;matter&#39;, &#39;mint&#39;, &#39;mrybm&#39;, &#39;mygbm&#39;, &#39;oranges&#39;,</span>
+<span class="n">             &#39;orrd&#39;, &#39;oryel&#39;, &#39;peach&#39;, &#39;phase&#39;, &#39;picnic&#39;, &#39;pinkyl&#39;, &#39;piyg&#39;,</span>
+<span class="n">             &#39;plasma&#39;, &#39;plotly3&#39;, &#39;portland&#39;, &#39;prgn&#39;, &#39;pubu&#39;, &#39;pubugn&#39;, &#39;puor&#39;,</span>
+<span class="n">             &#39;purd&#39;, &#39;purp&#39;, &#39;purples&#39;, &#39;purpor&#39;, &#39;rainbow&#39;, &#39;rdbu&#39;, &#39;rdgy&#39;,</span>
+<span class="n">             &#39;rdpu&#39;, &#39;rdylbu&#39;, &#39;rdylgn&#39;, &#39;redor&#39;, &#39;reds&#39;, &#39;solar&#39;, &#39;spectral&#39;,</span>
+<span class="n">             &#39;speed&#39;, &#39;sunset&#39;, &#39;sunsetdark&#39;, &#39;teal&#39;, &#39;tealgrn&#39;, &#39;tealrose&#39;,</span>
+<span class="n">             &#39;tempo&#39;, &#39;temps&#39;, &#39;thermal&#39;, &#39;tropic&#39;, &#39;turbid&#39;, &#39;twilight&#39;,</span>
+<span class="n">             &#39;viridis&#39;, &#39;ylgn&#39;, &#39;ylgnbu&#39;, &#39;ylorbr&#39;, &#39;ylorrd&#39;</span><span class="o">]</span><span class="w"></span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="n">iplot</span><span class="p">(</span><span class="n">choromap</span><span class="p">)</span>
+</code></pre></div>
+
+<h1 id="world-choropleth-map">World Choropleth Map<a class="headerlink" href="#world-choropleth-map" title="Permanent link">&para;</a></h1>
+<p>Now let's see an example with a World Map:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;2014_World_GDP&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;choropleth&#39;</span><span class="p">,</span>
+        <span class="n">locations</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;CODE&#39;</span><span class="p">],</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;GDP (BILLIONS)&#39;</span><span class="p">],</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;COUNTRY&#39;</span><span class="p">],</span>
+        <span class="n">colorbar</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;GDP Billions US&#39;</span><span class="p">},</span>
+      <span class="p">)</span> 
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">layout</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;2014 Global GDP&#39;</span><span class="p">,</span>
+    <span class="n">geo</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">showframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">projection</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;Mercator&#39;</span><span class="p">}</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">choromap</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">],</span><span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span><span class="p">)</span>
+<span class="n">iplot</span><span class="p">(</span><span class="n">choromap</span><span class="p">)</span>
+</code></pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020 Greydon Gilmore
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/greydongilmore" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.de50e36d.min.js"></script>
+      <script src="../assets/javascripts/bundle.38f5c9b5.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9b3611bd.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.4/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

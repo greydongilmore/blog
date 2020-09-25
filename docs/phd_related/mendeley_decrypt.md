@@ -24,7 +24,7 @@ Mendeley should be installed in either two ways:
 2. Locate your Mendeley database, the database is usually found in either:
 
     * `~/.local/share/data/Mendeley\ Ltd./Mendeley\ Desktop/`
-    * `~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley\ Ltd./Mendeley\ Desktop/`
+    * `"~/.var/app/com.elsevier.MendeleyDesktop/data/data/Mendeley Ltd./Mendeley Desktop"`
 
     You will find several sqlite databases:
 
@@ -38,7 +38,7 @@ Mendeley should be installed in either two ways:
 3. Make a backup copy of the encrypted database. In my case, I installed Mendeley as a Flatpak app so I ran the following to make a backup copy:
 
     ```console
-    cd ~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley\ Ltd./Mendeley\ Desktop/
+    cd "~/.var/app/com.elsevier.MendeleyDesktop/data/data/Mendeley Ltd./Mendeley Desktop"
     cp 579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite ~/backup-encrypted.sqlite
     ```
 
@@ -167,7 +167,7 @@ Mendeley should be installed in either two ways:
 12. Once the database is decrypted it is a good idea to save a copy of the database to a new location:
 
     ```console
-    cd ~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley\ Ltd./Mendeley\ Desktop/
+    cd "~/.var/app/com.elsevier.MendeleyDesktop/data/data/Mendeley Ltd./Mendeley Desktop"
     cp 579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite ~/backup-decrypted.sqlite
     ```
 
@@ -192,7 +192,7 @@ Mendeley should be installed in either two ways:
 14. Lastly, restore your backup copy of the encrypted database, so that Mendeley will continue to run OK:
 
     ```console
-    cd ~/.var/app/com.elsevier.MendeleyDesktop/share/data/data/Mendeley\ Ltd./Mendeley\ Desktop/
+    cd "~/.var/app/com.elsevier.MendeleyDesktop/data/data/Mendeley Ltd./Mendeley Desktop"
     cp ~/backup-encrypted.sqlite 579d4e70-4479-3965-8590-1ddf5803d0c1@www.mendeley.com.sqlite
     ```
 
