@@ -1,0 +1,5745 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://greydongilmore.com/blog/python_intro/01_03_python_basics_pandas.html">
+      
+      
+      <link rel="shortcut icon" href="../assets/images/brain_icon.svg">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.3.3">
+    
+    
+      
+        <title>Pandas</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.545621a7.min.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/palette.36d1b78f.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="3f51b5" data-md-color-accent="3f51b5">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#series" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://greydongilmore.com/blog/" title="Blog" class="md-header-nav__button md-logo" aria-label="Blog">
+      
+  <img src="../assets/images/brain_white_icon.svg" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Blog
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Pandas
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/greydongilmore/blog/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://greydongilmore.com/blog/" title="Blog" class="md-nav__button md-logo" aria-label="Blog">
+      
+  <img src="../assets/images/brain_white_icon.svg" alt="logo">
+
+    </a>
+    Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/greydongilmore/blog/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      PhD Related
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="PhD Related" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        PhD Related
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/mendeley_decrypt.html" title="Decrypt Mendeley" class="md-nav__link">
+      Decrypt Mendeley
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/install-github-desktop/index.html" title="GitHub Desktop" class="md-nav__link">
+      GitHub Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/reading-academic-papers/index.html" title="Reading Academic Papers" class="md-nav__link">
+      Reading Academic Papers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Operating System Tips
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Operating System Tips" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Operating System Tips
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Ubuntu 18.04/20.04
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Ubuntu 18.04/20.04" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Ubuntu 18.04/20.04
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/remote_desktop.html" title="Chrome Remote Desktop" class="md-nav__link">
+      Chrome Remote Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/server_shortcut.html" title="Remote Server Desktop App" class="md-nav__link">
+      Remote Server Desktop App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/app_icon.html" title="Desktop App Launcher" class="md-nav__link">
+      Desktop App Launcher
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      WSL (Windows 10)
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="WSL (Windows 10)" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        WSL (Windows 10)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/ants.html" title="Advanced Normalization Tools" class="md-nav__link">
+      Advanced Normalization Tools
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/art.html" title="Automatic Registration Toolbox" class="md-nav__link">
+      Automatic Registration Toolbox
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/cmake.html" title="Make/Cmake" class="md-nav__link">
+      Make/Cmake
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/dcm2niix.html" title="dcm2niix" class="md-nav__link">
+      dcm2niix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/freesurfer.html" title="Freesurfer" class="md-nav__link">
+      Freesurfer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/fsl.html" title="FMRIB Software Library" class="md-nav__link">
+      FMRIB Software Library
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/niftyreg.html" title="NiftyReg" class="md-nav__link">
+      NiftyReg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/terminator.html" title="Terminator" class="md-nav__link">
+      Terminator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/wsl.html" title="WSL" class="md-nav__link">
+      WSL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/wsl2.html" title="WSL2" class="md-nav__link">
+      WSL2
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Windows 10
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Windows 10" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Windows 10
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/product_key.html" title="Obtain Product Key" class="md-nav__link">
+      Obtain Product Key
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/sshfs.html" title="SSHFS" class="md-nav__link">
+      SSHFS
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Python Intro
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Python Intro" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Python Intro
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Basics
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Basics" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Basics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="01_01_python_basics_operations.html" title="Operations" class="md-nav__link">
+      Operations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="01_02_python_basics_numpy.html" title="Numpy" class="md-nav__link">
+      Numpy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Pandas
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="01_03_python_basics_pandas.html" title="Pandas" class="md-nav__link md-nav__link--active">
+      Pandas
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#series" class="md-nav__link">
+    Series
+  </a>
+  
+    <nav class="md-nav" aria-label="Series">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-lists" class="md-nav__link">
+    Using Lists
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numpy-arrays" class="md-nav__link">
+    NumPy Arrays
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dictionary" class="md-nav__link">
+    Dictionary
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-in-a-series" class="md-nav__link">
+    Data in a Series
+  </a>
+  
+    <nav class="md-nav" aria-label="Data in a Series">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-an-index" class="md-nav__link">
+    Using an Index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataframes" class="md-nav__link">
+    DataFrames
+  </a>
+  
+    <nav class="md-nav" aria-label="DataFrames">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selection-and-indexing" class="md-nav__link">
+    Selection and Indexing
+  </a>
+  
+    <nav class="md-nav" aria-label="Selection and Indexing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-column" class="md-nav__link">
+    Creating a new column
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-columns" class="md-nav__link">
+    Removing Columns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-rows" class="md-nav__link">
+    Selecting Rows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-subset-of-rows-and-columns" class="md-nav__link">
+    Selecting subset of rows and columns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-selection" class="md-nav__link">
+    Conditional Selection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-index-details" class="md-nav__link">
+    More Index Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-index-and-index-hierarchy" class="md-nav__link">
+    Multi-Index and Index Hierarchy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-data" class="md-nav__link">
+    Missing Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupby" class="md-nav__link">
+    Groupby
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merging-joining-and-concatenating" class="md-nav__link">
+    Merging, Joining, and Concatenating
+  </a>
+  
+    <nav class="md-nav" aria-label="Merging, Joining, and Concatenating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-dataframes" class="md-nav__link">
+    Example DataFrames
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concatenation" class="md-nav__link">
+    Concatenation
+  </a>
+  
+    <nav class="md-nav" aria-label="Concatenation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-dataframes_1" class="md-nav__link">
+    Example DataFrames
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merging" class="md-nav__link">
+    Merging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#joining" class="md-nav__link">
+    Joining
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operations" class="md-nav__link">
+    Operations
+  </a>
+  
+    <nav class="md-nav" aria-label="Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info-on-unique-values" class="md-nav__link">
+    Info on Unique Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-data" class="md-nav__link">
+    Selecting Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applying-functions" class="md-nav__link">
+    Applying Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanently-removing-a-column" class="md-nav__link">
+    Permanently Removing a Column
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-column-and-index-names" class="md-nav__link">
+    Get column and index names
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorting-and-ordering-a-dataframe" class="md-nav__link">
+    Sorting and Ordering a DataFrame
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-null-values-or-check-for-null-values" class="md-nav__link">
+    Find Null Values or Check for Null Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filling-in-nan-values-with-something-else" class="md-nav__link">
+    Filling in NaN values with something else
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv-data" class="md-nav__link">
+    CSV Data
+  </a>
+  
+    <nav class="md-nav" aria-label="CSV Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csv-input" class="md-nav__link">
+    CSV Input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-output" class="md-nav__link">
+    CSV Output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excel-data" class="md-nav__link">
+    Excel Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Excel Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excel-input" class="md-nav__link">
+    Excel Input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#excel-output" class="md-nav__link">
+    Excel Output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html-data" class="md-nav__link">
+    HTML Data
+  </a>
+  
+    <nav class="md-nav" aria-label="HTML Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html-input" class="md-nav__link">
+    HTML Input
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-data" class="md-nav__link">
+    SQL Data
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Plotting
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Plotting" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Plotting
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="02_02_plotting_matplotlib.html" title="Matplotlib" class="md-nav__link">
+      Matplotlib
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Machine Learning
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Machine Learning" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Machine Learning
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../machine_learning/signal_processing.html" title="Signal Processing" class="md-nav__link">
+      Signal Processing
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#series" class="md-nav__link">
+    Series
+  </a>
+  
+    <nav class="md-nav" aria-label="Series">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-lists" class="md-nav__link">
+    Using Lists
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numpy-arrays" class="md-nav__link">
+    NumPy Arrays
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dictionary" class="md-nav__link">
+    Dictionary
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-in-a-series" class="md-nav__link">
+    Data in a Series
+  </a>
+  
+    <nav class="md-nav" aria-label="Data in a Series">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-an-index" class="md-nav__link">
+    Using an Index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataframes" class="md-nav__link">
+    DataFrames
+  </a>
+  
+    <nav class="md-nav" aria-label="DataFrames">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selection-and-indexing" class="md-nav__link">
+    Selection and Indexing
+  </a>
+  
+    <nav class="md-nav" aria-label="Selection and Indexing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-column" class="md-nav__link">
+    Creating a new column
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-columns" class="md-nav__link">
+    Removing Columns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-rows" class="md-nav__link">
+    Selecting Rows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-subset-of-rows-and-columns" class="md-nav__link">
+    Selecting subset of rows and columns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-selection" class="md-nav__link">
+    Conditional Selection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-index-details" class="md-nav__link">
+    More Index Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-index-and-index-hierarchy" class="md-nav__link">
+    Multi-Index and Index Hierarchy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-data" class="md-nav__link">
+    Missing Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupby" class="md-nav__link">
+    Groupby
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merging-joining-and-concatenating" class="md-nav__link">
+    Merging, Joining, and Concatenating
+  </a>
+  
+    <nav class="md-nav" aria-label="Merging, Joining, and Concatenating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-dataframes" class="md-nav__link">
+    Example DataFrames
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concatenation" class="md-nav__link">
+    Concatenation
+  </a>
+  
+    <nav class="md-nav" aria-label="Concatenation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-dataframes_1" class="md-nav__link">
+    Example DataFrames
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merging" class="md-nav__link">
+    Merging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#joining" class="md-nav__link">
+    Joining
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operations" class="md-nav__link">
+    Operations
+  </a>
+  
+    <nav class="md-nav" aria-label="Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info-on-unique-values" class="md-nav__link">
+    Info on Unique Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-data" class="md-nav__link">
+    Selecting Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applying-functions" class="md-nav__link">
+    Applying Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanently-removing-a-column" class="md-nav__link">
+    Permanently Removing a Column
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-column-and-index-names" class="md-nav__link">
+    Get column and index names
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorting-and-ordering-a-dataframe" class="md-nav__link">
+    Sorting and Ordering a DataFrame
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-null-values-or-check-for-null-values" class="md-nav__link">
+    Find Null Values or Check for Null Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filling-in-nan-values-with-something-else" class="md-nav__link">
+    Filling in NaN values with something else
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv-data" class="md-nav__link">
+    CSV Data
+  </a>
+  
+    <nav class="md-nav" aria-label="CSV Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csv-input" class="md-nav__link">
+    CSV Input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-output" class="md-nav__link">
+    CSV Output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excel-data" class="md-nav__link">
+    Excel Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Excel Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excel-input" class="md-nav__link">
+    Excel Input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#excel-output" class="md-nav__link">
+    Excel Output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html-data" class="md-nav__link">
+    HTML Data
+  </a>
+  
+    <nav class="md-nav" aria-label="HTML Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html-input" class="md-nav__link">
+    HTML Input
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-data" class="md-nav__link">
+    SQL Data
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+  
+    <a href="https://github.com/greydongilmore/blog/blob/master/docs/python_intro/01_03_python_basics_pandas.md" title="Edit this page" class="md-content__button md-icon" target="blank_" style="font-size: 14px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg> <p style="margin-top:2px;">Edit this page</p>
+    </a>
+    <a href="https://github.com/greydongilmore/blog/issues/new/choose" title="Open an issue" class="md-content__button md-icon" target="blank_" style="font-size: 14px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> <p style="margin-top:2px;">Open and issue</p>
+    </a>
+  
+  
+    
+  
+  
+    <h1>Pandas</h1>
+  
+  <p>Pandas is a newer package built on top of NumPy, and provides an efficient implementation of a <strong>DataFrame</strong>. <strong>DataFrames</strong> are essentially multidimensional arrays with attached row and column labels, and often with heterogeneous types and/or missing data. As well as offering a convenient storage interface for labeled data, Pandas implements a number of powerful data operations familiar to users of both database frameworks and spreadsheet programs.</p>
+<p>At the very basic level, Pandas objects can be thought of as enhanced versions of NumPy structured arrays in which the rows and columns are identified with labels rather than simple integer indices. As we will see during the course of this chapter, Pandas provides a host of useful tools, methods, and functionality on top of the basic data structures, but nearly everything that follows will require an understanding of what these structures are. Thus, before we go any further, let's introduce these three fundamental Pandas data structures: the Series, DataFrame, and Index.</p>
+<h2 id="series">Series<a class="headerlink" href="#series" title="Permanent link">&para;</a></h2>
+<p>The first main data type we will learn about for pandas is the Series data type. Let's import Pandas and explore the Series object. A Series is very similar to a NumPy array (in fact it is built on top of the NumPy array object). What differentiates the NumPy array from a Series, is that a Series can have axis labels, meaning it can be indexed by a label, instead of just a number location. It also doesn't need to hold numeric data, it can hold any arbitrary Python Object.</p>
+<p>Let's explore this concept through some examples:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+
+<p>You can convert a list, numpy array, or dictionary to a Series:</p>
+<div class="highlight"><pre><span></span><code><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">]</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">30</span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="using-lists">Using Lists<a class="headerlink" href="#using-lists" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my_list</span><span class="p">)</span>
+
+<span class="mi">0</span>    <span class="mi">10</span>
+<span class="mi">1</span>    <span class="mi">20</span>
+<span class="mi">2</span>    <span class="mi">30</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my_list</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">a</span>    <span class="mi">10</span>
+<span class="n">b</span>    <span class="mi">20</span>
+<span class="n">c</span>    <span class="mi">30</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">a</span>    <span class="mi">10</span>
+<span class="n">b</span>    <span class="mi">20</span>
+<span class="n">c</span>    <span class="mi">30</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<h3 id="numpy-arrays">NumPy Arrays<a class="headerlink" href="#numpy-arrays" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+<span class="mi">0</span>    <span class="mi">10</span>
+<span class="mi">1</span>    <span class="mi">20</span>
+<span class="mi">2</span>    <span class="mi">30</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">a</span>    <span class="mi">10</span>
+<span class="n">b</span>    <span class="mi">20</span>
+<span class="n">c</span>    <span class="mi">30</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<h3 id="dictionary">Dictionary<a class="headerlink" href="#dictionary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+<span class="n">a</span>    <span class="mi">10</span>
+<span class="n">b</span>    <span class="mi">20</span>
+<span class="n">c</span>    <span class="mi">30</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<h2 id="data-in-a-series">Data in a Series<a class="headerlink" href="#data-in-a-series" title="Permanent link">&para;</a></h2>
+<p>A pandas Series can hold a variety of object types:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="mi">0</span>    <span class="n">a</span>
+<span class="mi">1</span>    <span class="n">b</span>
+<span class="mi">2</span>    <span class="n">c</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Even functions (although unlikely that you will use this)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="nb">sum</span><span class="p">,</span><span class="nb">print</span><span class="p">,</span><span class="nb">len</span><span class="p">])</span>
+
+<span class="mi">0</span>      <span class="o">&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">function</span> <span class="nb">sum</span><span class="o">&gt;</span>
+<span class="mi">1</span>    <span class="o">&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">function</span> <span class="nb">print</span><span class="o">&gt;</span>
+<span class="mi">2</span>      <span class="o">&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">function</span> <span class="nb">len</span><span class="o">&gt;</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span>
+</code></pre></div>
+
+<h3 id="using-an-index">Using an Index<a class="headerlink" href="#using-an-index" title="Permanent link">&para;</a></h3>
+<p>The key to using a Series is understanding its index. Pandas makes use of these index names or numbers by allowing for fast look ups of information (works like a hash table or dictionary).</p>
+<p>Let's see some examples of how to grab information from a Series. Let us create two sereis, ser1 and ser2:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ser1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;USA&#39;</span><span class="p">,</span> <span class="s1">&#39;Germany&#39;</span><span class="p">,</span><span class="s1">&#39;USSR&#39;</span><span class="p">,</span> <span class="s1">&#39;Japan&#39;</span><span class="p">])</span>                                   
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ser1</span>
+
+<span class="n">USA</span>        <span class="mi">1</span>
+<span class="n">Germany</span>    <span class="mi">2</span>
+<span class="n">USSR</span>       <span class="mi">3</span>
+<span class="n">Japan</span>      <span class="mi">4</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ser2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;USA&#39;</span><span class="p">,</span> <span class="s1">&#39;Germany&#39;</span><span class="p">,</span><span class="s1">&#39;Italy&#39;</span><span class="p">,</span> <span class="s1">&#39;Japan&#39;</span><span class="p">])</span>                                   
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ser2</span>
+
+<span class="n">USA</span>        <span class="mi">1</span>
+<span class="n">Germany</span>    <span class="mi">2</span>
+<span class="n">Italy</span>      <span class="mi">5</span>
+<span class="n">Japan</span>      <span class="mi">4</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ser1</span><span class="p">[</span><span class="s1">&#39;USA&#39;</span><span class="p">]</span>
+
+<span class="mi">1</span>
+</code></pre></div>
+
+<p>Operations are then also done based off of index:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ser1</span> <span class="o">+</span> <span class="n">ser2</span>
+
+<span class="n">Germany</span>    <span class="mf">4.0</span>
+<span class="n">Italy</span>      <span class="n">NaN</span>
+<span class="n">Japan</span>      <span class="mf">8.0</span>
+<span class="n">USA</span>        <span class="mf">2.0</span>
+<span class="n">USSR</span>       <span class="n">NaN</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<p>Let's stop here for now and move on to DataFrames, which will expand on the concept of Series!</p>
+<h2 id="dataframes">DataFrames<a class="headerlink" href="#dataframes" title="Permanent link">&para;</a></h2>
+<p>DataFrames are the workhorse of pandas and are directly inspired by the R programming language. We can think of a DataFrame as a bunch of Series objects put together to share the same index. Let's use pandas to explore this topic!</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">randn</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;A B C D E&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;W X Y Z&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="selection-and-indexing">Selection and Indexing<a class="headerlink" href="#selection-and-indexing" title="Permanent link">&para;</a></h3>
+<p>Let's learn the various methods to grab data from a DataFrame</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span>
+
+<span class="n">A</span>    <span class="mf">2.706850</span>
+<span class="n">B</span>    <span class="mf">0.651118</span>
+<span class="n">C</span>   <span class="o">-</span><span class="mf">2.018168</span>
+<span class="n">D</span>    <span class="mf">0.188695</span>
+<span class="n">E</span>    <span class="mf">0.190794</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">W</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Pass a list of column names</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;W&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">]]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">#SQL Syntax (NOT RECOMMENDED!)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">W</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="err">A    2.706850</span>
+<span class="err">B    0.651118</span>
+<span class="err">C   -2.018168</span>
+<span class="err">D    0.188695</span>
+<span class="err">E    0.190794</span>
+<span class="c">Name: W, dtype: float64</span>
+</code></pre></div>
+
+
+<p>DataFrame Columns are just Series</p>
+<div class="highlight"><pre><span></span><code><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">])</span>
+
+<span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">Series</span>
+</code></pre></div>
+
+<h4 id="creating-a-new-column">Creating a new column<a class="headerlink" href="#creating-a-new-column" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+      <th>new</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+      <td>3.614819</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+      <td>-0.196959</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+      <td>-1.489355</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+      <td>-0.744542</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+      <td>2.796762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h4 id="removing-columns">Removing Columns<a class="headerlink" href="#removing-columns" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">#Not inplace unless specified!</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+      <th>new</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+      <td>3.614819</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+      <td>-0.196959</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+      <td>-1.489355</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+      <td>-0.744542</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+      <td>2.796762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Can also drop rows this way:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h4 id="selecting-rows">Selecting Rows<a class="headerlink" href="#selecting-rows" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+
+<span class="n">W</span>    <span class="mf">2.706850</span>
+<span class="n">X</span>    <span class="mf">0.628133</span>
+<span class="n">Y</span>    <span class="mf">0.907969</span>
+<span class="n">Z</span>    <span class="mf">0.503826</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<p>Or select based off of position instead of label </p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">W</span>   <span class="o">-</span><span class="mf">2.018168</span>
+<span class="n">X</span>    <span class="mf">0.740122</span>
+<span class="n">Y</span>    <span class="mf">0.528813</span>
+<span class="n">Z</span>   <span class="o">-</span><span class="mf">0.589001</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<h4 id="selecting-subset-of-rows-and-columns">Selecting subset of rows and columns<a class="headerlink" href="#selecting-subset-of-rows-and-columns" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+
+<span class="o">-</span><span class="mf">0.84807698340363147</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">],[</span><span class="s1">&#39;W&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">]]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>Y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.907969</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.848077</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="conditional-selection">Conditional Selection<a class="headerlink" href="#conditional-selection" title="Permanent link">&para;</a></h3>
+<p>An important feature of pandas is conditional selection using bracket notation, very similar to numpy:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">&gt;</span><span class="mi">0</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>NaN</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+
+<span class="n">A</span>    <span class="mf">0.907969</span>
+<span class="n">B</span>   <span class="o">-</span><span class="mf">0.848077</span>
+<span class="n">D</span>   <span class="o">-</span><span class="mf">0.933237</span>
+<span class="n">E</span>    <span class="mf">2.605967</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">][[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">]]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Y</th>
+      <th>X</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>0.907969</td>
+      <td>0.628133</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>-0.848077</td>
+      <td>-0.319318</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>-0.933237</td>
+      <td>-0.758872</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>2.605967</td>
+      <td>1.978757</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>For two conditions you can use | and &amp; with parenthesis:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="more-index-details">More Index Details<a class="headerlink" href="#more-index-details" title="Permanent link">&para;</a></h3>
+<p>Let's discuss some more features of indexing, including resetting the index or setting it something else. We'll also talk about index hierarchy!</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">#Reset to default 0,1...n index</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A</td>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>B</td>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C</td>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>D</td>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>E</td>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">newind</span> <span class="o">=</span> <span class="s1">&#39;CA NY WY OR CO&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;States&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newind</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+      <th>States</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+      <td>CA</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+      <td>NY</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+      <td>WY</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+      <td>OR</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+      <td>CO</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;States&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+    <tr>
+      <th>States</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CA</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>NY</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>WY</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>OR</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>CO</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+      <th>States</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+      <td>CA</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+      <td>NY</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+      <td>WY</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+      <td>OR</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+      <td>CO</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;States&#39;</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+    <tr>
+      <th>States</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CA</th>
+      <td>2.706850</td>
+      <td>0.628133</td>
+      <td>0.907969</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>NY</th>
+      <td>0.651118</td>
+      <td>-0.319318</td>
+      <td>-0.848077</td>
+      <td>0.605965</td>
+    </tr>
+    <tr>
+      <th>WY</th>
+      <td>-2.018168</td>
+      <td>0.740122</td>
+      <td>0.528813</td>
+      <td>-0.589001</td>
+    </tr>
+    <tr>
+      <th>OR</th>
+      <td>0.188695</td>
+      <td>-0.758872</td>
+      <td>-0.933237</td>
+      <td>0.955057</td>
+    </tr>
+    <tr>
+      <th>CO</th>
+      <td>0.190794</td>
+      <td>1.978757</td>
+      <td>2.605967</td>
+      <td>0.683509</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="multi-index-and-index-hierarchy">Multi-Index and Index Hierarchy<a class="headerlink" href="#multi-index-and-index-hierarchy" title="Permanent link">&para;</a></h3>
+<p>Let us go over how to work with Multi-Index, first we'll create a quick example of what a Multi-Indexed DataFrame would look like:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Index Levels</span>
+<span class="n">outside</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;G1&#39;</span><span class="p">,</span><span class="s1">&#39;G1&#39;</span><span class="p">,</span><span class="s1">&#39;G1&#39;</span><span class="p">,</span><span class="s1">&#39;G2&#39;</span><span class="p">,</span><span class="s1">&#39;G2&#39;</span><span class="p">,</span><span class="s1">&#39;G2&#39;</span><span class="p">]</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">hier_index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">outside</span><span class="p">,</span><span class="n">inside</span><span class="p">))</span>
+<span class="n">hier_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span><span class="n">hier_index</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">hier_index</span>
+
+<span class="n">MultiIndex</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;G1&#39;</span><span class="p">,</span> <span class="s1">&#39;G2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+               <span class="n">labels</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">index</span><span class="o">=</span><span class="n">hier_index</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">])</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">G1</th>
+      <th>1</th>
+      <td>0.153661</td>
+      <td>0.167638</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.765930</td>
+      <td>0.962299</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.902826</td>
+      <td>-0.537909</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">G2</th>
+      <th>1</th>
+      <td>-1.549671</td>
+      <td>0.435253</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.259904</td>
+      <td>-0.447898</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.266207</td>
+      <td>0.412580</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Now let's show how to index this! For index hierarchy we use df.loc[], if this was on the columns axis, you would just use normal bracket notation df[]. Calling one level of the index returns the sub-dataframe:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;G1&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>0.153661</td>
+      <td>0.167638</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.765930</td>
+      <td>0.962299</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.902826</td>
+      <td>-0.537909</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;G1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">A</span>    <span class="mf">0.153661</span>
+<span class="n">B</span>    <span class="mf">0.167638</span>
+<span class="n">Name</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+
+<span class="n">FrozenList</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">,</span><span class="s1">&#39;Num&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+    <tr>
+      <th>Group</th>
+      <th>Num</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">G1</th>
+      <th>1</th>
+      <td>0.153661</td>
+      <td>0.167638</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.765930</td>
+      <td>0.962299</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.902826</td>
+      <td>-0.537909</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">G2</th>
+      <th>1</th>
+      <td>-1.549671</td>
+      <td>0.435253</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.259904</td>
+      <td>-0.447898</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.266207</td>
+      <td>0.412580</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;G1&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+    <tr>
+      <th>Num</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>0.153661</td>
+      <td>0.167638</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.765930</td>
+      <td>0.962299</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.902826</td>
+      <td>-0.537909</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">xs</span><span class="p">([</span><span class="s1">&#39;G1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">A</span>    <span class="mf">0.153661</span>
+<span class="n">B</span>    <span class="mf">0.167638</span>
+<span class="n">Name</span><span class="p">:</span> <span class="p">(</span><span class="n">G1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;Num&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+    <tr>
+      <th>Group</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>G1</th>
+      <td>0.153661</td>
+      <td>0.167638</td>
+    </tr>
+    <tr>
+      <th>G2</th>
+      <td>-1.549671</td>
+      <td>0.435253</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="missing-data">Missing Data<a class="headerlink" href="#missing-data" title="Permanent link">&para;</a></h3>
+<p>Let's show a few convenient methods to deal with Missing Data in pandas:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span>
+                  <span class="s1">&#39;B&#39;</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span>
+                  <span class="s1">&#39;C&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">thresh</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;FILL VALUE&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>FILL VALUE</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>FILL VALUE</td>
+      <td>FILL VALUE</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="mi">0</span>    <span class="mf">1.0</span>
+<span class="mi">1</span>    <span class="mf">2.0</span>
+<span class="mi">2</span>    <span class="mf">1.5</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></div>
+
+<h3 id="groupby">Groupby<a class="headerlink" href="#groupby" title="Permanent link">&para;</a></h3>
+<p>The groupby method allows you to group rows of data together and call aggregate functions</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># Create dataframe</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Company&#39;</span><span class="p">:[</span><span class="s1">&#39;GOOG&#39;</span><span class="p">,</span><span class="s1">&#39;GOOG&#39;</span><span class="p">,</span><span class="s1">&#39;MSFT&#39;</span><span class="p">,</span><span class="s1">&#39;MSFT&#39;</span><span class="p">,</span><span class="s1">&#39;FB&#39;</span><span class="p">,</span><span class="s1">&#39;FB&#39;</span><span class="p">],</span>
+       <span class="s1">&#39;Person&#39;</span><span class="p">:[</span><span class="s1">&#39;Sam&#39;</span><span class="p">,</span><span class="s1">&#39;Charlie&#39;</span><span class="p">,</span><span class="s1">&#39;Amy&#39;</span><span class="p">,</span><span class="s1">&#39;Vanessa&#39;</span><span class="p">,</span><span class="s1">&#39;Carl&#39;</span><span class="p">,</span><span class="s1">&#39;Sarah&#39;</span><span class="p">],</span>
+       <span class="s1">&#39;Sales&#39;</span><span class="p">:[</span><span class="mi">200</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">340</span><span class="p">,</span><span class="mi">124</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">350</span><span class="p">]}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Company</th>
+      <th>Person</th>
+      <th>Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GOOG</td>
+      <td>Sam</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GOOG</td>
+      <td>Charlie</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MSFT</td>
+      <td>Amy</td>
+      <td>340</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MSFT</td>
+      <td>Vanessa</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>FB</td>
+      <td>Carl</td>
+      <td>243</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>FB</td>
+      <td>Sarah</td>
+      <td>350</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Now you can use the .groupby() method to group rows together based off of a column name. For instance let's group based off of Company. This will create a DataFrameGroupBy object:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Company&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>You can save this object as a new variable:</p>
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Company&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>And then call aggregate methods off the object:</p>
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>FB</th>
+      <td>296.5</td>
+    </tr>
+    <tr>
+      <th>GOOG</th>
+      <td>160.0</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>232.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Company&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>FB</th>
+      <td>296.5</td>
+    </tr>
+    <tr>
+      <th>GOOG</th>
+      <td>160.0</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>232.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>More examples of aggregate methods:</p>
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>FB</th>
+      <td>75.660426</td>
+    </tr>
+    <tr>
+      <th>GOOG</th>
+      <td>56.568542</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>152.735065</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Person</th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>FB</th>
+      <td>Carl</td>
+      <td>243</td>
+    </tr>
+    <tr>
+      <th>GOOG</th>
+      <td>Charlie</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>Amy</td>
+      <td>124</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Person</th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>FB</th>
+      <td>Sarah</td>
+      <td>350</td>
+    </tr>
+    <tr>
+      <th>GOOG</th>
+      <td>Sam</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>Vanessa</td>
+      <td>340</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Person</th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>FB</th>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>GOOG</th>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Sales</th>
+    </tr>
+    <tr>
+      <th>Company</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="8" valign="top">FB</th>
+      <th>count</th>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>296.500000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>75.660426</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>243.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>269.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>296.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>323.250000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>350.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="8" valign="top">GOOG</th>
+      <th>count</th>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>160.000000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>56.568542</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>120.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>140.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>160.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>180.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>200.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="8" valign="top">MSFT</th>
+      <th>count</th>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>232.000000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>152.735065</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>124.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>178.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>232.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>286.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>340.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th colspan="8" halign="left">FB</th>
+      <th colspan="5" halign="left">GOOG</th>
+      <th colspan="8" halign="left">MSFT</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>...</th>
+      <th>75%</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Sales</th>
+      <td>2.0</td>
+      <td>296.5</td>
+      <td>75.660426</td>
+      <td>243.0</td>
+      <td>269.75</td>
+      <td>296.5</td>
+      <td>323.25</td>
+      <td>350.0</td>
+      <td>2.0</td>
+      <td>160.0</td>
+      <td>...</td>
+      <td>180.0</td>
+      <td>200.0</td>
+      <td>2.0</td>
+      <td>232.0</td>
+      <td>152.735065</td>
+      <td>124.0</td>
+      <td>178.0</td>
+      <td>232.0</td>
+      <td>286.0</td>
+      <td>340.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 24 columns</p>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">by_comp</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="s1">&#39;GOOG&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Sales</th>
+      <td>2.0</td>
+      <td>160.0</td>
+      <td>56.568542</td>
+      <td>120.0</td>
+      <td>140.0</td>
+      <td>160.0</td>
+      <td>180.0</td>
+      <td>200.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="merging-joining-and-concatenating">Merging, Joining, and Concatenating<a class="headerlink" href="#merging-joining-and-concatenating" title="Permanent link">&para;</a></h3>
+<p>There are 3 main ways of combining DataFrames together: Merging, Joining and Concatenating. In this lecture we will discuss these 3 methods with examples.</p>
+<h4 id="example-dataframes">Example DataFrames<a class="headerlink" href="#example-dataframes" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">,</span> <span class="s1">&#39;D1&#39;</span><span class="p">,</span> <span class="s1">&#39;D2&#39;</span><span class="p">,</span> <span class="s1">&#39;D3&#39;</span><span class="p">]},</span>
+                        <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">df1</span>
+</code></pre></div>
+
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">A</th>
+<th align="left">B</th>
+<th align="left">C</th>
+<th align="left">D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td align="left">A0</td>
+<td align="left">B0</td>
+<td align="left">C0</td>
+<td align="left">D0</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="left">A1</td>
+<td align="left">B1</td>
+<td align="left">C1</td>
+<td align="left">D1</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="left">A2</td>
+<td align="left">B2</td>
+<td align="left">C2</td>
+<td align="left">D2</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="left">A3</td>
+<td align="left">B3</td>
+<td align="left">C3</td>
+<td align="left">D3</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+<div class="highlight"><pre><span></span><code><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A4&#39;</span><span class="p">,</span> <span class="s1">&#39;A5&#39;</span><span class="p">,</span> <span class="s1">&#39;A6&#39;</span><span class="p">,</span> <span class="s1">&#39;A7&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;C5&#39;</span><span class="p">,</span> <span class="s1">&#39;C6&#39;</span><span class="p">,</span> <span class="s1">&#39;C7&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;D5&#39;</span><span class="p">,</span> <span class="s1">&#39;D6&#39;</span><span class="p">,</span> <span class="s1">&#39;D7&#39;</span><span class="p">]},</span>
+                         <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span> 
+
+<span class="n">df2</span>
+</code></pre></div>
+
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">A</th>
+<th align="left">B</th>
+<th align="left">C</th>
+<th align="left">D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td align="left">A4</td>
+<td align="left">B4</td>
+<td align="left">C4</td>
+<td align="left">D4</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="left">A5</td>
+<td align="left">B5</td>
+<td align="left">C5</td>
+<td align="left">D5</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="left">A6</td>
+<td align="left">B6</td>
+<td align="left">C6</td>
+<td align="left">D6</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="left">A7</td>
+<td align="left">B7</td>
+<td align="left">C7</td>
+<td align="left">D7</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+<p><div class="out highlight"><pre><span></span><code><span class="n">df3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A8&#39;</span><span class="p">,</span> <span class="s1">&#39;A9&#39;</span><span class="p">,</span> <span class="s1">&#39;A10&#39;</span><span class="p">,</span> <span class="s1">&#39;A11&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B8&#39;</span><span class="p">,</span> <span class="s1">&#39;B9&#39;</span><span class="p">,</span> <span class="s1">&#39;B10&#39;</span><span class="p">,</span> <span class="s1">&#39;B11&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C8&#39;</span><span class="p">,</span> <span class="s1">&#39;C9&#39;</span><span class="p">,</span> <span class="s1">&#39;C10&#39;</span><span class="p">,</span> <span class="s1">&#39;C11&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D8&#39;</span><span class="p">,</span> <span class="s1">&#39;D9&#39;</span><span class="p">,</span> <span class="s1">&#39;D10&#39;</span><span class="p">,</span> <span class="s1">&#39;D11&#39;</span><span class="p">]},</span>
+                        <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df3</span><span class="p">)</span>
+</code></pre></div>
+<TABLE style="border-collapse: collapse; border: solid;">
+<center></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">A</th>
+<th align="left">B</th>
+<th align="left">C</th>
+<th align="left">D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td align="left">A8</td>
+<td align="left">B8</td>
+<td align="left">C8</td>
+<td align="left">D8</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="left">A9</td>
+<td align="left">B9</td>
+<td align="left">C9</td>
+<td align="left">D9</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="left">A10</td>
+<td align="left">B10</td>
+<td align="left">C10</td>
+<td align="left">D10</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="left">A11</td>
+<td align="left">B11</td>
+<td align="left">C11</td>
+<td align="left">D11</td>
+</tr>
+</tbody>
+</table>
+<p></center>
+</TABLE></p>
+<h3 id="concatenation">Concatenation<a class="headerlink" href="#concatenation" title="Permanent link">&para;</a></h3>
+<p>Concatenation basically glues together DataFrames. Keep in mind that dimensions should match along the axis you are concatenating on. You can use <strong>pd.concat</strong> and pass in a list of DataFrames to concatenate together:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">,</span><span class="n">df3</span><span class="p">])</span>
+</code></pre></div>
+
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">A</th>
+<th align="left">B</th>
+<th align="left">C</th>
+<th align="left">D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td align="left">A0</td>
+<td align="left">B0</td>
+<td align="left">C0</td>
+<td align="left">D0</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="left">A1</td>
+<td align="left">B1</td>
+<td align="left">C1</td>
+<td align="left">D1</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="left">A2</td>
+<td align="left">B2</td>
+<td align="left">C2</td>
+<td align="left">D2</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="left">A3</td>
+<td align="left">B3</td>
+<td align="left">C3</td>
+<td align="left">D3</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>C1</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A3</td>
+      <td>B3</td>
+      <td>C3</td>
+      <td>D3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A4</td>
+      <td>B4</td>
+      <td>C4</td>
+      <td>D4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>A5</td>
+      <td>B5</td>
+      <td>C5</td>
+      <td>D5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>A6</td>
+      <td>B6</td>
+      <td>C6</td>
+      <td>D6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>A7</td>
+      <td>B7</td>
+      <td>C7</td>
+      <td>D7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>A8</td>
+      <td>B8</td>
+      <td>C8</td>
+      <td>D8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>A9</td>
+      <td>B9</td>
+      <td>C9</td>
+      <td>D9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>A10</td>
+      <td>B10</td>
+      <td>C10</td>
+      <td>D10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>A11</td>
+      <td>B11</td>
+      <td>C11</td>
+      <td>D11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">,</span><span class="n">df3</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>C0</td>
+      <td>D0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>C1</td>
+      <td>D1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>C2</td>
+      <td>D2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A3</td>
+      <td>B3</td>
+      <td>C3</td>
+      <td>D3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A4</td>
+      <td>B4</td>
+      <td>C4</td>
+      <td>D4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A5</td>
+      <td>B5</td>
+      <td>C5</td>
+      <td>D5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A6</td>
+      <td>B6</td>
+      <td>C6</td>
+      <td>D6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A7</td>
+      <td>B7</td>
+      <td>C7</td>
+      <td>D7</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A8</td>
+      <td>B8</td>
+      <td>C8</td>
+      <td>D8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A9</td>
+      <td>B9</td>
+      <td>C9</td>
+      <td>D9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A10</td>
+      <td>B10</td>
+      <td>C10</td>
+      <td>D10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A11</td>
+      <td>B11</td>
+      <td>C11</td>
+      <td>D11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h4 id="example-dataframes_1">Example DataFrames<a class="headerlink" href="#example-dataframes_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">left</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K2&#39;</span><span class="p">,</span> <span class="s1">&#39;K3&#39;</span><span class="p">],</span>
+                     <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">],</span>
+                     <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">]})</span>
+
+<span class="n">right</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K2&#39;</span><span class="p">,</span> <span class="s1">&#39;K3&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">,</span> <span class="s1">&#39;D1&#39;</span><span class="p">,</span> <span class="s1">&#39;D2&#39;</span><span class="p">,</span> <span class="s1">&#39;D3&#39;</span><span class="p">]})</span>    
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">left</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>K0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>K1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A3</td>
+      <td>B3</td>
+      <td>K3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">right</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C</th>
+      <th>D</th>
+      <th>key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C0</td>
+      <td>D0</td>
+      <td>K0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C1</td>
+      <td>D1</td>
+      <td>K1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C2</td>
+      <td>D2</td>
+      <td>K2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>C3</td>
+      <td>D3</td>
+      <td>K3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="merging">Merging<a class="headerlink" href="#merging" title="Permanent link">&para;</a></h3>
+<p>The <strong>merge</strong> function allows you to merge DataFrames together using a similar logic as merging SQL Tables together. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>key</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>K0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>K1</td>
+      <td>C1</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K2</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A3</td>
+      <td>B3</td>
+      <td>K3</td>
+      <td>C3</td>
+      <td>D3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Or to show a more complicated example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">left</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;key1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K2&#39;</span><span class="p">],</span>
+                     <span class="s1">&#39;key2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">]})</span>
+
+<span class="n">right</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;key1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K2&#39;</span><span class="p">],</span>
+                               <span class="s1">&#39;key2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K0&#39;</span><span class="p">],</span>
+                                  <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">],</span>
+                                  <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">,</span> <span class="s1">&#39;D1&#39;</span><span class="p">,</span> <span class="s1">&#39;D2&#39;</span><span class="p">,</span> <span class="s1">&#39;D3&#39;</span><span class="p">]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>K0</td>
+      <td>K0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C1</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>K0</td>
+      <td>K0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>K0</td>
+      <td>K1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C1</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A3</td>
+      <td>B3</td>
+      <td>K2</td>
+      <td>K1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>K2</td>
+      <td>K0</td>
+      <td>C3</td>
+      <td>D3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>K0</td>
+      <td>K0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C1</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>K2</td>
+      <td>K0</td>
+      <td>C3</td>
+      <td>D3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>K0</td>
+      <td>K0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>K0</td>
+      <td>K1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C1</td>
+      <td>D1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>K1</td>
+      <td>K0</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A3</td>
+      <td>B3</td>
+      <td>K2</td>
+      <td>K1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="joining">Joining<a class="headerlink" href="#joining" title="Permanent link">&para;</a></h3>
+<p>Joining is a convenient method for combining the columns of two potentially differently-indexed DataFrames into a single result DataFrame.</p>
+<div class="highlight"><pre><span></span><code><span class="n">left</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">],</span>
+                     <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">]},</span>
+                      <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;K2&#39;</span><span class="p">])</span> 
+
+<span class="n">right</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">,</span> <span class="s1">&#39;D2&#39;</span><span class="p">,</span> <span class="s1">&#39;D3&#39;</span><span class="p">]},</span>
+                      <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K2&#39;</span><span class="p">,</span> <span class="s1">&#39;K3&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">left</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>K0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>K1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>K2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">left</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>K0</th>
+      <td>A0</td>
+      <td>B0</td>
+      <td>C0</td>
+      <td>D0</td>
+    </tr>
+    <tr>
+      <th>K1</th>
+      <td>A1</td>
+      <td>B1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>K2</th>
+      <td>A2</td>
+      <td>B2</td>
+      <td>C2</td>
+      <td>D2</td>
+    </tr>
+    <tr>
+      <th>K3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C3</td>
+      <td>D3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h2>
+<p>There are lots of operations with pandas that will be really useful to you, but don't fall into any distinct category.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;col1&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s1">&#39;col2&#39;</span><span class="p">:[</span><span class="mi">444</span><span class="p">,</span><span class="mi">555</span><span class="p">,</span><span class="mi">666</span><span class="p">,</span><span class="mi">444</span><span class="p">],</span><span class="s1">&#39;col3&#39;</span><span class="p">:[</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;def&#39;</span><span class="p">,</span><span class="s1">&#39;ghi&#39;</span><span class="p">,</span><span class="s1">&#39;xyz&#39;</span><span class="p">]})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>444</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>555</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>666</td>
+      <td>ghi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="info-on-unique-values">Info on Unique Values<a class="headerlink" href="#info-on-unique-values" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+<span class="n">array</span><span class="p">([</span><span class="mi">444</span><span class="p">,</span> <span class="mi">555</span><span class="p">,</span> <span class="mi">666</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+
+<span class="mi">3</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="mi">444</span>    <span class="mi">2</span>
+<span class="mi">555</span>    <span class="mi">1</span>
+<span class="mi">666</span>    <span class="mi">1</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">col2</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<h3 id="selecting-data">Selecting Data<a class="headerlink" href="#selecting-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#Select from DataFrame using criteria from multiple columns</span>
+<span class="n">newdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">444</span><span class="p">)]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">newdf</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="applying-functions">Applying Functions<a class="headerlink" href="#applying-functions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">times2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">times2</span><span class="p">)</span>
+
+<span class="mi">0</span>    <span class="mi">2</span>
+<span class="mi">1</span>    <span class="mi">4</span>
+<span class="mi">2</span>    <span class="mi">6</span>
+<span class="mi">3</span>    <span class="mi">8</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">col1</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col3&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+
+<span class="mi">0</span>    <span class="mi">3</span>
+<span class="mi">1</span>    <span class="mi">3</span>
+<span class="mi">2</span>    <span class="mi">3</span>
+<span class="mi">3</span>    <span class="mi">3</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">col3</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="mi">10</span>
+</code></pre></div>
+
+<h3 id="permanently-removing-a-column">Permanently Removing a Column<a class="headerlink" href="#permanently-removing-a-column" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>444</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>555</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>666</td>
+      <td>ghi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="get-column-and-index-names">Get column and index names<a class="headerlink" href="#get-column-and-index-names" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="n">Index</span><span class="p">([</span><span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="s1">&#39;col3&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+
+<span class="n">RangeIndex</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="sorting-and-ordering-a-dataframe">Sorting and Ordering a DataFrame<a class="headerlink" href="#sorting-and-ordering-a-dataframe" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>444</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>555</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>666</td>
+      <td>ghi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;col2&#39;</span><span class="p">)</span> <span class="c1">#inplace=False by default</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>444</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>555</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>666</td>
+      <td>ghi</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="find-null-values-or-check-for-null-values">Find Null Values or Check for Null Values<a class="headerlink" href="#find-null-values-or-check-for-null-values" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">#Drop rows with NaN Values</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>444</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>555</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>666</td>
+      <td>ghi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="filling-in-nan-values-with-something-else">Filling in NaN values with something else<a class="headerlink" href="#filling-in-nan-values-with-something-else" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;col1&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span>
+                   <span class="s1">&#39;col2&#39;</span><span class="p">:[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">555</span><span class="p">,</span><span class="mi">666</span><span class="p">,</span><span class="mi">444</span><span class="p">],</span>
+                   <span class="s1">&#39;col3&#39;</span><span class="p">:[</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;def&#39;</span><span class="p">,</span><span class="s1">&#39;ghi&#39;</span><span class="p">,</span><span class="s1">&#39;xyz&#39;</span><span class="p">]})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>555.0</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>666.0</td>
+      <td>ghi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>444.0</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;FILL&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>FILL</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>555</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>666</td>
+      <td>ghi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>FILL</td>
+      <td>444</td>
+      <td>xyz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">],</span>
+     <span class="s1">&#39;B&#39;</span><span class="p">:[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span><span class="s1">&#39;one&#39;</span><span class="p">,</span><span class="s1">&#39;two&#39;</span><span class="p">,</span><span class="s1">&#39;two&#39;</span><span class="p">,</span><span class="s1">&#39;one&#39;</span><span class="p">,</span><span class="s1">&#39;one&#39;</span><span class="p">],</span>
+       <span class="s1">&#39;C&#39;</span><span class="p">:[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+       <span class="s1">&#39;D&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>foo</td>
+      <td>one</td>
+      <td>x</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>foo</td>
+      <td>one</td>
+      <td>y</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>foo</td>
+      <td>two</td>
+      <td>x</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>bar</td>
+      <td>two</td>
+      <td>y</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>bar</td>
+      <td>one</td>
+      <td>x</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>bar</td>
+      <td>one</td>
+      <td>y</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C</th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+    <tr>
+      <th>A</th>
+      <th>B</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">bar</th>
+      <th>one</th>
+      <td>4.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>NaN</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">foo</th>
+      <th>one</th>
+      <td>1.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="csv-data">CSV Data<a class="headerlink" href="#csv-data" title="Permanent link">&para;</a></h2>
+<h3 id="csv-input">CSV Input<a class="headerlink" href="#csv-input" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+      <th>c</th>
+      <th>d</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12</td>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="csv-output">CSV Output<a class="headerlink" href="#csv-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="excel-data">Excel Data<a class="headerlink" href="#excel-data" title="Permanent link">&para;</a></h2>
+<p>Pandas can read and write excel files, keep in mind, this only imports data. Not formulas or images, having images or macros may cause this read_excel method to crash. </p>
+<h3 id="excel-input">Excel Input<a class="headerlink" href="#excel-input" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;Excel_Sample.xlsx&#39;</span><span class="p">,</span><span class="n">sheetname</span><span class="o">=</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+      <th>c</th>
+      <th>d</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12</td>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="excel-output">Excel Output<a class="headerlink" href="#excel-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s1">&#39;Excel_Sample.xlsx&#39;</span><span class="p">,</span><span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="html-data">HTML Data<a class="headerlink" href="#html-data" title="Permanent link">&para;</a></h2>
+<p>You may need to install htmllib5,lxml, and BeautifulSoup4. In your terminal/command prompt run:</p>
+<div class="highlight"><pre><span></span><code>python -m pip install lxml
+python -m pip install html5lib
+python -m pip install BeautifulSoup4
+</code></pre></div>
+
+<p>Pandas can read table tabs off of html.</p>
+<h3 id="html-input">HTML Input<a class="headerlink" href="#html-input" title="Permanent link">&para;</a></h3>
+<p>Pandas read_html function will read tables off of a webpage and return a list of DataFrame objects:</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="s1">&#39;http://www.fdic.gov/bank/individual/failed/banklist.html&#39;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Bank Name</th>
+<th>City</th>
+<th>ST</th>
+<th>CERT</th>
+<th>Acquiring Institution</th>
+<th>Closing Date</th>
+<th>Updated Date</th>
+<th>Loss Share Type</th>
+<th>Agreement Terminated</th>
+<th>Termination Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>First CornerStone Bank</td>
+<td>King of Prussia</td>
+<td>PA</td>
+<td>35312</td>
+<td>First-Citizens Bank &amp; Trust Company</td>
+<td>May 6, 2016</td>
+<td>July 12, 2016</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Trust Company Bank</td>
+<td>Memphis</td>
+<td>TN</td>
+<td>9956</td>
+<td>The Bank of Fayette County</td>
+<td>April 29, 2016</td>
+<td>August 4, 2016</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>2</td>
+<td>North Milwaukee State Bank</td>
+<td>Milwaukee</td>
+<td>WI</td>
+<td>20364</td>
+<td>First-Citizens Bank &amp; Trust Company</td>
+<td>March 11, 2016</td>
+<td>June 16, 2016</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hometown National Bank</td>
+<td>Longview</td>
+<td>WA</td>
+<td>35156</td>
+<td>Twin City Bank</td>
+<td>October 2, 2015</td>
+<td>April 13, 2016</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The Bank of Georgia</td>
+<td>Peachtree City</td>
+<td>GA</td>
+<td>35259</td>
+<td>Fidelity Bank</td>
+<td>October 2, 2015</td>
+<td>April 13, 2016</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>543</td>
+<td>National State Bank of Metropolis</td>
+<td>Metropolis</td>
+<td>IL</td>
+<td>3815</td>
+<td>Banterra Bank of Marion</td>
+<td>December 14, 2000</td>
+<td>March 17, 2005</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>544</td>
+<td>Bank of Honolulu</td>
+<td>Honolulu</td>
+<td>HI</td>
+<td>21029</td>
+<td>Bank of the Orient</td>
+<td>October 13, 2000</td>
+<td>March 17, 2005</td>
+<td>none</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+<h2 id="sql-data">SQL Data<a class="headerlink" href="#sql-data" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are completely unfamiliar with SQL you can check out my other course: "Complete SQL Bootcamp" to learn SQL.</p>
+</div>
+<p>The pandas.io.sql module provides a collection of query wrappers to both facilitate data retrieval and to reduce dependency on DB-specific API. Database abstraction is provided by SQLAlchemy if installed. In addition you will need a driver library for your database. Examples of such drivers are psycopg2 for PostgreSQL or pymysql for MySQL. For SQLite this is included in Python’s standard library by default. You can find an overview of supported drivers for each SQL dialect in the SQLAlchemy docs.</p>
+<p>If SQLAlchemy is not installed, a fallback is only provided for sqlite (and for mysql for backwards compatibility, but this is deprecated and will be removed in a future version). This mode requires a Python database adapter which respect the Python DB-API.</p>
+<p>See also some cookbook examples for some advanced strategies.</p>
+<p>The key functions are:</p>
+<ul>
+<li>read_sql_table(table_name, con[, schema, ...])    <ul>
+<li>Read SQL database table into a DataFrame.</li>
+</ul>
+</li>
+<li>read_sql_query(sql, con[, index_col, ...])    <ul>
+<li>Read SQL query into a DataFrame.</li>
+</ul>
+</li>
+<li>read_sql(sql, con[, index_col, ...])  <ul>
+<li>Read SQL query or database table into a DataFrame.</li>
+</ul>
+</li>
+<li>DataFrame.to_sql(name, con[, flavor, ...])    <ul>
+<li>Write records stored in a DataFrame to a SQL database.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///:memory:&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="n">sql_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<span class="n">sql_df</span>
+</code></pre></div>
+
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">index</th>
+<th align="left">a</th>
+<th>b</th>
+<th>c</th>
+<th>d</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="left">1</td>
+<td align="left">4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="left">2</td>
+<td align="left">8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="left">3</td>
+<td align="left">12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+  
+    
+  
+
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="01_02_python_basics_numpy.html" title="Numpy" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Numpy
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="02_02_plotting_matplotlib.html" title="Matplotlib" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Matplotlib
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020 Greydon Gilmore
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/greydongilmore" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.de50e36d.min.js"></script>
+      <script src="../assets/javascripts/bundle.38f5c9b5.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9b3611bd.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.4/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
