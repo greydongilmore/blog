@@ -132,7 +132,7 @@ nav:
       - Windows 10:
           - Overview: operating_systems/windows/index.md
           - Obtain Product Key: operating_systems/windows/product_key.md
-          - SSHFS: operating_systems/windows/sshfs.md
+          - Mount Remote Drive: operating_systems/windows/sshfs.md
   - Python Intro:
       - Basics:
           - Operations: python_intro/01_01_python_basics_operations.md
