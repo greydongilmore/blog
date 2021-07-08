@@ -120,7 +120,7 @@ nav:
           - Chrome Remote Desktop: operating_systems/linux/remote_desktop.md
           - Remote Server Desktop App: operating_systems/linux/server_shortcut.md
           - Desktop App Launcher: operating_systems/linux/app_icon.md
-      - Windows Subsystem For Linux:
+      - WSL:
           - Overview: operating_systems/wsl/index.md
           - Advanced Normalization Tools: operating_systems/wsl/ants.md
           - Automatic Registration Toolbox: operating_systems/wsl/art.md
