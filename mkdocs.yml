@@ -113,12 +113,12 @@ nav:
       - Making PDFs Searchable: phd_related/ocr-papers/index.md
       - Reading Academic Papers: phd_related/reading-academic-papers/index.md
   - Operating System Tips:
-      - Ubuntu 18.04/20.04:
+      - Linux (Debian systems):
           - Overview: operating_systems/linux/index.md
           - Chrome Remote Desktop: operating_systems/linux/remote_desktop.md
           - Remote Server Desktop App: operating_systems/linux/server_shortcut.md
           - Desktop App Launcher: operating_systems/linux/app_icon.md
-      - WSL (Windows 10):
+      - Windows Subsystem For Linux:
           - Overview: operating_systems/wsl/index.md
           - Advanced Normalization Tools: operating_systems/wsl/ants.md
           - Automatic Registration Toolbox: operating_systems/wsl/art.md
@@ -130,7 +130,7 @@ nav:
           - Terminator: operating_systems/wsl/terminator.md
           - WSL: operating_systems/wsl/wsl.md
           - WSL2: operating_systems/wsl/wsl2.md
-      - Windows 10:
+      - Windows:
           - Overview: operating_systems/windows/index.md
           - Obtain Product Key: operating_systems/windows/product_key.md
           - Mount Remote Drive: operating_systems/windows/sshfs.md
