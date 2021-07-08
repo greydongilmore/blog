@@ -16,12 +16,12 @@ The code to perform the bulk OCR conversion can be found in this <a href="https:
 
 2. Next, you will need to determine where Zotereo stores your PDF files. In Zotereo, right-click on any document and select **Show File**. A new window will pop-up, make note of the full path to parent directory (i.e. /home/Zotereo/storage).
 
-<center>
-    <figure>
-        <img src="./img/pdf_storage_location.png" alt="pdf_storage_location" width="80%"/>
-        <figcaption>Zotereo file storage location.</figcaption>
-    </figure>
-</center>
+    <center>
+        <figure>
+            <img src="./img/pdf_storage_location.png" alt="pdf_storage_location" width="80%"/>
+            <figcaption>Zotereo file storage location.</figcaption>
+        </figure>
+    </center>
 
 3. In a terminal window, change into the GitHub project repository:
 
