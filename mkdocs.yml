@@ -110,6 +110,7 @@ nav:
       - Overview: phd_related/index.md
       - Decrypt Mendeley: phd_related/mendeley_decrypt.md
       - GitHub Desktop: phd_related/install-github-desktop/index.md
+      - Making PDFs Searchable: phd_related/ocr-papers/index.md
       - Reading Academic Papers: phd_related/reading-academic-papers/index.md
   - Operating System Tips:
       - Ubuntu 18.04/20.04:
