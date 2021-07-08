@@ -143,5 +143,9 @@ nav:
           - Pandas: python_intro/01_03_python_basics_pandas.md
       - Plotting:
           - Matplotlib: python_intro/02_02_plotting_matplotlib.md
+  - Signal Processing:
+      - Signal Processing Intro: signal_processing/signal_processing.md
   - Machine Learning:
-      - Signal Processing: machine_learning/signal_processing.md
+      - Machine Learning Intro: machine_learning/ml_basics.md
+      - Linear Regression: machine_learning/linear_regression.md
+      - Logistic Regression: machine_learning/logistic_regression.md
