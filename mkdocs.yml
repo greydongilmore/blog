@@ -78,7 +78,7 @@ markdown_extensions:
       permalink: true
   - pymdownx.superfences
   - pymdownx.details
-  - pymdownx.arithmatex
+  - pymdownx.arithmatex:
       generic: true
   - pymdownx.keys
   - pymdownx.betterem:
