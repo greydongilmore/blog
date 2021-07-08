@@ -2,7 +2,7 @@
 # Project information
 site_name: Blog
 site_url: https://blog-academic.greydongilmore.com
-site_author: 
+site_author: Greydon Gilmore
 site_description: 
 
 # Repository
@@ -12,7 +12,7 @@ edit_uri: https://github.com/greydongilmore/blog/blob/master/docs
 issues_url: https://github.com/greydongilmore/blog/issues/new/choose
 
 # Copyright
-copyright: Copyright &copy; 2020 Greydon Gilmore
+copyright: Copyright &copy; 2021 Greydon Gilmore
 
 dev_addr: 127.0.0.1:7000
 use_directory_urls: false
@@ -68,15 +68,19 @@ extra:
 
 # Extensions
 markdown_extensions:
-  - markdown.extensions.admonition
-  - markdown.extensions.codehilite
-  - markdown.extensions.def_list
-  - markdown.extensions.footnotes
-  - markdown.extensions.meta
-  - markdown.extensions.toc:
+  - admonition
+  - codehilite
+  - def_list
+  - attr_list
+  - footnotes
+  - meta
+  - toc:
       permalink: true
-  - pymdownx.arithmatex:
-      generic: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.arithmatex
+    generic: true
+  - pymdownx.keys
   - pymdownx.betterem:
       smart_enable: all
   - pymdownx.caret
@@ -85,8 +89,6 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-  # - pymdownx.highlight:
-  #     linenums_style: pymdownx-inline
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.magiclink:
