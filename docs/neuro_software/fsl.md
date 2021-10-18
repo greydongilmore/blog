@@ -12,7 +12,7 @@ The easiest method is to download this [python script](https://fsl.fmrib.ox.ac.u
 Run the following in a linux terminal (the install will take awhile):
 
 ```console
-python /mnt/c/Users/*[your_username]*/Downloads/fslinstaller.py
+python /home/*[your_username]*/Downloads/fslinstaller.py
 ```
 
 You will also need to install the package `wxpython`:
