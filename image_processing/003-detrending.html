@@ -1,0 +1,1386 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://blog-academic.greydongilmore.com/image_processing/003-detrending.html">
+      
+      
+        <meta name="author" content="Greydon Gilmore">
+      
+      <link rel="shortcut icon" href="../assets/images/brain_icon.svg">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-5.3.3">
+    
+    
+      
+        <title>Detrending - Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.545621a7.min.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/palette.36d1b78f.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="3f51b5" data-md-color-accent="3f51b5">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#detrending" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://blog-academic.greydongilmore.com/" title="Blog" class="md-header-nav__button md-logo" aria-label="Blog">
+      
+  <img src="../assets/images/brain_white_icon.svg" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Blog
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Detrending
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/greydongilmore/blog/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://blog-academic.greydongilmore.com/" title="Blog" class="md-nav__button md-logo" aria-label="Blog">
+      
+  <img src="../assets/images/brain_white_icon.svg" alt="logo">
+
+    </a>
+    Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/greydongilmore/blog/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      PhD Related
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="PhD Related" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        PhD Related
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/mendeley_decrypt.html" title="Decrypt Mendeley" class="md-nav__link">
+      Decrypt Mendeley
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/install-github-desktop/index.html" title="GitHub Desktop" class="md-nav__link">
+      GitHub Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/ocr-papers/index.html" title="Making PDFs Searchable" class="md-nav__link">
+      Making PDFs Searchable
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phd_related/reading-academic-papers/index.html" title="Reading Academic Papers" class="md-nav__link">
+      Reading Academic Papers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Neuro Software
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Neuro Software" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Neuro Software
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neuro_software/ants.html" title="Advanced Normalization Tools" class="md-nav__link">
+      Advanced Normalization Tools
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neuro_software/art.html" title="Automatic Registration Toolbox" class="md-nav__link">
+      Automatic Registration Toolbox
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neuro_software/dcm2niix.html" title="dcm2niix" class="md-nav__link">
+      dcm2niix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neuro_software/freesurfer.html" title="Freesurfer" class="md-nav__link">
+      Freesurfer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neuro_software/fsl.html" title="FMRIB Software Library (FSL)" class="md-nav__link">
+      FMRIB Software Library (FSL)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neuro_software/niftyreg.html" title="NiftyReg" class="md-nav__link">
+      NiftyReg
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Operating System Tips
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Operating System Tips" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Operating System Tips
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/cmake.html" title="Make/Cmake" class="md-nav__link">
+      Make/Cmake
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Linux (Debian systems)
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Linux (Debian systems)" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Linux (Debian systems)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/remote_desktop.html" title="Chrome Remote Desktop" class="md-nav__link">
+      Chrome Remote Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/server_shortcut.html" title="Remote Server Desktop App" class="md-nav__link">
+      Remote Server Desktop App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/linux/app_icon.html" title="Desktop App Launcher" class="md-nav__link">
+      Desktop App Launcher
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      WSL
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="WSL" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        WSL
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/terminator.html" title="Terminator" class="md-nav__link">
+      Terminator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/wsl.html" title="WSL" class="md-nav__link">
+      WSL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/wsl/wsl2.html" title="WSL2" class="md-nav__link">
+      WSL2
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      Windows
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Windows" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Windows
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/index.html" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/product_key.html" title="Obtain Product Key" class="md-nav__link">
+      Obtain Product Key
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../operating_systems/windows/sshfs.html" title="Mount Remote Drive" class="md-nav__link">
+      Mount Remote Drive
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Python
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Python" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Python
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-1" type="checkbox" id="nav-5-1">
+    
+    <label class="md-nav__link" for="nav-5-1">
+      Basics
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Basics" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Basics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../python_intro/01_01_python_basics_operations.html" title="Operations" class="md-nav__link">
+      Operations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../python_intro/01_02_python_basics_numpy.html" title="Numpy" class="md-nav__link">
+      Numpy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../python_intro/01_03_python_basics_pandas.html" title="Pandas" class="md-nav__link">
+      Pandas
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+    
+    <label class="md-nav__link" for="nav-5-2">
+      Plotting
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Plotting" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Plotting
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../python_intro/02_02_plotting_matplotlib.html" title="Matplotlib" class="md-nav__link">
+      Matplotlib
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Signal Processing
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Signal Processing" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Signal Processing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../signal_processing/signal_processing.html" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Machine Learning
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Machine Learning" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Machine Learning
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../machine_learning/ml_basics.html" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../machine_learning/linear_regression.html" title="Linear Regression" class="md-nav__link">
+      Linear Regression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../machine_learning/logistic_regression.html" title="Logistic Regression" class="md-nav__link">
+      Logistic Regression
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    Questions:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    Keypoints:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-spatial-relationships-in-image-processing" class="md-nav__link">
+    Using the spatial relationships in image processing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#our-data-contains-spatial-bias" class="md-nav__link">
+    Our data contains spatial bias
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modeling-linear-bias-and-detrending" class="md-nav__link">
+    Modeling linear bias and detrending
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detrending_1" class="md-nav__link">
+    "Detrending"
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-can-we-do-with-the-remaining-interior-exterior-bias" class="md-nav__link">
+    What can we do with the remaining interior-exterior bias?
+  </a>
+  
+    <nav class="md-nav" aria-label="What can we do with the remaining interior-exterior bias?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removing-additional-bias-with-a-linearized-model" class="md-nav__link">
+    Removing additional bias with a linearized model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#should-we-keep-going" class="md-nav__link">
+    Should we keep going?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-is-it-enough" class="md-nav__link">
+    When is it enough?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/greydongilmore/blog/blob/master/docs/image_processing/003-detrending.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  
+                
+                
+                <h1 id="detrending">Detrending<a class="headerlink" href="#detrending" title="Permanent link">&para;</a></h1>
+<p>(teaching: 25 minutes, exercises: 10 minutes)</p>
+<h3 id="questions">Questions:<a class="headerlink" href="#questions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>"How do we eliminate trends in our data?"</li>
+<li>"Why are linear models useful?s"</li>
+</ul>
+<h3 id="objectives">Objectives:<a class="headerlink" href="#objectives" title="Permanent link">&para;</a></h3>
+<ul>
+<li>"Detrend image data with a linear model"</li>
+<li>"Use a linearized quadratic model to fit second order effects"</li>
+</ul>
+<h3 id="keypoints">Keypoints:<a class="headerlink" href="#keypoints" title="Permanent link">&para;</a></h3>
+<ul>
+<li>"Linear models are useful to represent the images in a concise and computationally expedient manner"</li>
+<li>"Linearized models are used to fit more complex models using the same mathematical framework"</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span class="kn">import</span> <span class="nn">dipy.data</span> <span class="k">as</span> <span class="nn">dpd</span>
+<span class="n">remote</span><span class="p">,</span> <span class="n">local</span> <span class="o">=</span> <span class="n">dpd</span><span class="o">.</span><span class="n">fetch_stanford_t1</span><span class="p">()</span>
+<span class="n">T1_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local</span><span class="p">,</span> <span class="s1">&#39;t1.nii.gz&#39;</span><span class="p">)</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code><span class="nv">Dataset</span> <span class="nv">is</span> <span class="nv">already</span> <span class="nv">in</span> <span class="nv">place</span>. <span class="k">If</span> <span class="nv">you</span> <span class="nv">want</span> <span class="nv">to</span> <span class="nv">fetch</span> <span class="nv">it</span> <span class="nv">again</span> <span class="nv">please</span> <span class="nv">first</span> <span class="nv">remove</span> <span class="nv">the</span> <span class="nv">folder</span> <span class="o">/</span><span class="nv">home</span><span class="o">/</span><span class="nv">jovyan</span><span class="o">/</span>.<span class="nv">dipy</span><span class="o">/</span><span class="nv">stanford_hardi</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
+
+<span class="n">T1w_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">T1_file</span><span class="p">)</span>
+<span class="n">T1w_data</span> <span class="o">=</span> <span class="n">T1w_img</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+</code></pre></div>
+<p>We will use the segmentation algorithm we saw before to focus only on the part of the image that contains the brain:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dipy.segment.mask</span> <span class="kn">import</span> <span class="n">median_otsu</span>
+<span class="n">T1w_data</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">median_otsu</span><span class="p">(</span><span class="n">T1w_data</span><span class="p">)</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>/opt/conda/lib/python3.5/site-packages/skimage/filter/__init__.py:6: skimage_deprecation: The `skimage.filter` module has been renamed to `skimage.filters`.  This placeholder module will be removed in v0.13.
+  warn(skimage_deprecation(&#39;The `skimage.filter` module has been renamed &#39;
+</code></pre></div>
+
+<h3 id="using-the-spatial-relationships-in-image-processing">Using the spatial relationships in image processing<a class="headerlink" href="#using-the-spatial-relationships-in-image-processing" title="Permanent link">&para;</a></h3>
+<p>In the next example of image processing , the
+spatial relationships between voxels will be made rather explicit. We will use
+the spatial coordinates to remove spatial trends from the data.</p>
+<h3 id="our-data-contains-spatial-bias">Our data contains spatial bias<a class="headerlink" href="#our-data-contains-spatial-bias" title="Permanent link">&para;</a></h3>
+<p>As we saw in the last part, MRI data often contains spatial biases. Some of
+these may be due to physiological factors, such as differences in the T1
+time-constant between different parts of the brain. But some of these represent
+"nuisance factors" that should be eliminated as a first step in the analysis of
+the image.</p>
+<p>For example, the image is brighter in the back of the head of this participant
+than in the front. This often happens when the head is placed closer to the
+measurement coils that are at the bottom of the coil, closer to the occipital
+cortex. We can also see that the center of the brain is darker than the more
+external parts, also presumably due to the distance of these parts from the
+measurement coils.</p>
+<p>To model this spatial bias and remove it, we will assume that changes across the
+entire extent of the image are due to bias.</p>
+<h3 id="modeling-linear-bias-and-detrending">Modeling linear bias and detrending<a class="headerlink" href="#modeling-linear-bias-and-detrending" title="Permanent link">&para;</a></h3>
+<p>A linear spatial bias can be thought of as another 3D volume that coexists in
+the same space as our data. This bias field can be modeled as a combination of
+of biases on the x, y and z dimensions.</p>
+<p>We'll use the <code>np.meshgrid</code> function to create volumes that contain the
+3D functions:</p>
+<p><span class="arithmatex">\(vol(x,y,z) = x \\
+vol(x,y,z) = y \\
+vol(x,y,z) = z \\\)</span></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>To clarify, let's also create a little function that will help us view these
+volumes:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">show_volumes</span><span class="p">(</span><span class="n">volume_list</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">volume_list</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">volume_list</span><span class="p">)):</span>
+        <span class="n">this</span> <span class="o">=</span> <span class="n">volume_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">this</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">this</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bone&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">([</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">fig</span>
+</code></pre></div>
+<p>For example, the following should show sections through the T1-weighted data, as
+well as through each one of these volumes:</p>
+<div class="highlight"><pre><span></span><code><span class="n">fig1</span> <span class="o">=</span> <span class="n">show_volumes</span><span class="p">([</span><span class="n">T1w_data</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">show_volumes</span><span class="p">([</span><span class="n">T1w_data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+</code></pre></div>
+<p><img alt="png" src="003-detrending_files/003-detrending_11_0.png" /></p>
+<p><img alt="png" src="003-detrending_files/003-detrending_11_1.png" /></p>
+<p>You can see that in the top row, the <code>x</code> volume changes gradually along the
+right-left dimension of the participants head. The <code>y</code> volume changes gradually
+along the anterior-posterior dimension. The <code>z</code> volume doesn't change at all
+(why?). Similarly, in the second row, the <code>z</code> and <code>y</code> volumes change, while the
+<code>x</code> volume remains constant along this entire slice.</p>
+<p>Mathematically, the bias field can be described as a linear combination of
+these three volumes:</p>
+<p><span class="arithmatex">\(data_{measured} = data_{true} + bias\)</span></p>
+<p><span class="arithmatex">\(bias = data_{measured} - data_{true}\)</span></p>
+<p>where</p>
+<p>$bias = \beta_1 x + \beta_2 y + \beta_3 z $</p>
+<p>Another way of saying this is that all linear bias fields are spanned by the
+basis set comprising <code>x</code>, <code>y</code> and <code>z</code>.</p>
+<p>Next, we are going to make a simple assumption that in the lack of any spatial
+bias, the data would have a more-or-less constant value across space. That is,
+we assume that for unbiased data,</p>
+<p><span class="arithmatex">\(\beta_1 = \beta_2 = \beta_3 = 0\)</span>.</p>
+<p>This seems like a strange assumption to make, but it makes sense when you think
+of the fact that we expect the brain to be more or less symmetrical (it's not
+supposed to be much brighter in any particular direction), and given the spatial
+scale of the functions we are using for debiasing.</p>
+<p>Even if you feel uncomfortable with this assumption, you might want to remember
+that the T1-weighted measurement is just that: a non-quantitative weighted
+measurement that is affected by T1, but not directly reflective of. If
+subsequent image processing operations are made simpler by this detrending, it
+might be worth ignoring actual biological differences (e.g. white matter with T1
+that is slightly different in frontal cortex, relative to other lobes) in the
+service of these other steps.</p>
+<p>But this allows us to rewrite the above function as:</p>
+<p><span class="arithmatex">\(data_{measured} = \beta_1 x + \beta_2 y + \beta_3 z\)</span></p>
+<p>Then, To find the values of <span class="arithmatex">\({\bf \beta}\)</span> we start by unraveling the data and the
+regressors into one-dimensional vector form, using the <code>np.ravel</code> function:</p>
+<div class="highlight"><pre><span></span><code><span class="n">regressors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">z</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">T1w_data</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">regressors</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>((652536,), (652536, 3))
+</code></pre></div>
+
+<p>The shape of the unravelled data is the product of the <code>x</code>, <code>y</code> and <code>z</code>
+dimensions of the data</p>
+<p>The problem we are now trying to solve can be written as the following set of
+linear equations:</p>
+<p>$\begin{pmatrix}
+T1_{0,0,0} \
+T1_{0,0,1} \
+\vdots \
+T1_{0, 0, N_z} \
+T1_{0, 1, 0} \
+T1_{0,1,1} \
+\vdots \
+T1_{1,0,0} \
+T1_{1,0,1} \
+\vdots \
+T1_{N_x, N_y, N_z} \end{pmatrix} =
+\begin{pmatrix}
+x_{0,0,0} &amp; y_{0,0,0} &amp; z_{0,0,0} \
+x_{0,0,1} &amp; y_{0,0,1} &amp; z_{0,0,1}\
+\vdots &amp; \vdots &amp; \vdots \
+x_{0, 0, N_z} &amp; y_{0, 0, N_z} &amp; z_{0, 0, N_z} \
+x_{0, 1, 0} &amp; y_{0, 1, 0} &amp; z_{0, 1, 0} \
+x_{0,1,1} &amp; y_{0,1,1} &amp; z_{0,1,1} \
+\vdots &amp; \vdots &amp; \vdots \
+x_{1,0,0} &amp; y_{1,0,0} &amp; z_{1,0,0} \
+x_{1,0,1} &amp; y_{1,0,1} &amp; z_{1,0,1}\
+\vdots &amp; \vdots &amp; \vdots \
+x_{N_x, N_y, N_z} &amp; y_{N_x, N_y, N_z} &amp; z_{N_x, N_y, N_z}
+\end{pmatrix}
+\begin{pmatrix} \beta_1 \ \beta_2 \ \beta_3 \end{pmatrix}
+$</p>
+<p>These equations can be solved for \({\bf \beta}\) with an Ordinary Least
+Squares solution. This is implemented in <code>scipy.linalg</code> as <code>lstsq</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">scipy.linalg</span> <span class="k">as</span> <span class="nn">la</span>
+<span class="c1"># la.lstsq?  # Get help about this function</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">solution</span> <span class="o">=</span> <span class="n">la</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">regressors</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+<p>Because the solution is a tuple with a variety of information about the
+solution, we'll just extract out only the first element:</p>
+<div class="highlight"><pre><span></span><code><span class="n">beta_hat</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+<p>Inverting the equation gives us an estimate of the linear trend, but it still
+has the unravelled shape:</p>
+<div class="highlight"><pre><span></span><code><span class="n">linear_trend</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">regressors</span><span class="p">,</span> <span class="n">beta_hat</span><span class="p">)</span>
+<span class="n">linear_trend</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>(652536,)
+</code></pre></div>
+
+<p>We reshape it back to the correct shape, and remove it from the data for a
+detrended volume, which we can examine side-by-side with the original data:</p>
+<div class="highlight"><pre><span></span><code><span class="n">linear_trend</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">linear_trend</span><span class="p">,</span> <span class="n">T1w_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">T1w_linear_detrend</span> <span class="o">=</span> <span class="n">T1w_data</span> <span class="o">-</span> <span class="n">linear_trend</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">show_volumes</span><span class="p">([</span><span class="n">T1w_data</span><span class="p">,</span> <span class="n">linear_trend</span><span class="p">,</span> <span class="n">T1w_linear_detrend</span><span class="p">])</span>
+</code></pre></div>
+<p><img alt="png" src="003-detrending_files/003-detrending_22_0.png" /></p>
+<p>Let's write a function to codify this entire process:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">detrend</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">regressors</span><span class="p">):</span>
+    <span class="n">regressors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regressors</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">la</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">regressors</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+    <span class="n">beta_hat</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">trend</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">regressors</span><span class="p">,</span> <span class="n">beta_hat</span><span class="p">)</span>
+    <span class="n">detrended</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">trend</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">detrended</span><span class="p">,</span> <span class="n">beta_hat</span>
+</code></pre></div>
+<p>This simplifies the process to:</p>
+<div class="highlight"><pre><span></span><code><span class="n">T1w_linear_detrend</span><span class="p">,</span> <span class="n">beta_hat</span> <span class="o">=</span> <span class="n">detrend</span><span class="p">(</span><span class="n">T1w_data</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">show_volumes</span><span class="p">([</span><span class="n">T1w_data</span><span class="p">,</span> <span class="n">T1w_linear_detrend</span><span class="p">])</span>
+</code></pre></div>
+<p><img alt="png" src="003-detrending_files/003-detrending_26_0.png" /></p>
+<blockquote>
+<h3 id="detrending_1">"Detrending"<a class="headerlink" href="#detrending_1" title="Permanent link">&para;</a></h3>
+<p>Note that "detrending" is often used in a similar manner in neuroimaging to
+remove temporal biases. Here we are rather performing a spatial detrending
+operation
+</p>
+</blockquote>
+<p>One way to understand the nature of the bias field is to examine the values of
+the coefficients that were found in the solution to the linear equations.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">beta_hat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">beta_hat</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">beta_hat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">)</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>&lt;matplotlib.text.Text at 0x7f85cf2569e8&gt;
+</code></pre></div>
+
+<p><img alt="png" src="003-detrending_files/003-detrending_29_1.png" /></p>
+<p>We can see that there is almost no up-down bias field. Indeed, there is some
+anterior-posterior bias and an even more substantial superior-inferior bias.</p>
+<blockquote>
+<h2 id="what-can-we-do-with-the-remaining-interior-exterior-bias">What can we do with the remaining interior-exterior bias?<a class="headerlink" href="#what-can-we-do-with-the-remaining-interior-exterior-bias" title="Permanent link">&para;</a></h2>
+<p>Examining the images, we can see that the detrending has removed some of the
+biases in the data, but there is still a clear interior-exterior bias.s
+What could we do to help mitigate this additional bias?</p>
+</blockquote>
+<h3 id="removing-additional-bias-with-a-linearized-model">Removing additional bias with a linearized model<a class="headerlink" href="#removing-additional-bias-with-a-linearized-model" title="Permanent link">&para;</a></h3>
+<p>The linear model we have seen so far does manage to get rid of some of the bias,
+but what can we do to get rid of the interior-exterior bias?</p>
+<p>To do so, we add to our bias-field model quadratic functions, to augment the
+linear trends that we already have included:</p>
+<div class="highlight"><pre><span></span><code><span class="n">x_sq</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">y_sq</span> <span class="o">=</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">z_sq</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">show_volumes</span><span class="p">([</span><span class="n">x_sq</span><span class="p">,</span> <span class="n">y_sq</span><span class="p">,</span> <span class="n">z_sq</span><span class="p">])</span>
+</code></pre></div>
+<p><img alt="png" src="003-detrending_files/003-detrending_32_0.png" /></p>
+<p>These functions allow us to model second order trends in the data. Perfect for
+modeling trends like a center-out brightening.</p>
+<p>This model has more parameters and a wider design matrix:</p>
+<div class="arithmatex">\[ data = \beta_1 {\bf x} + \beta_2 {\bf y} + \beta_3 {\bf z} +
+          \beta_4 {\bf x^2} + \beta_5 {\bf y^2} + \beta_6 {\bf z^2} \]</div>
+<div class="arithmatex">\[
+\begin{pmatrix} {\bf T1w} \\ \vdots \end{pmatrix} =
+\begin{pmatrix}
+{\bf x} &amp;&amp; {\bf y} &amp;&amp; {\bf z} &amp;&amp; {\bf x^2} &amp;&amp; {\bf y^2} &amp;&amp; {\bf z^2}
+\\
+\vdots &amp;&amp; \vdots &amp;&amp; \vdots &amp;&amp; \vdots &amp;&amp; \vdots &amp;&amp; \vdots
+\end{pmatrix}
+\begin{pmatrix} \beta_1 \\ \beta_2 \\ \beta_3 \\ \beta_4 \\ \beta_5 \\ \beta_6
+\end{pmatrix}
+\]</div>
+<p>We sometimes call this kind of a model a "linearized" model, because we have
+inserted non-linear equations into the form of the general linear model.</p>
+<p>Using our <code>detrend</code> function, we can construct and solve the augmented model:</p>
+<div class="highlight"><pre><span></span><code><span class="n">T1w_data_detrended_quad</span><span class="p">,</span> <span class="n">beta_hat</span> <span class="o">=</span> <span class="n">detrend</span><span class="p">(</span><span class="n">T1w_data</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">x_sq</span><span class="p">,</span> <span class="n">y_sq</span><span class="p">,</span> <span class="n">z_sq</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">show_volumes</span><span class="p">([</span><span class="n">T1w_data</span><span class="p">,</span> <span class="n">T1w_linear_detrend</span><span class="p">,</span> <span class="n">T1w_data_detrended_quad</span><span class="p">])</span>
+</code></pre></div>
+<p><img alt="png" src="003-detrending_files/003-detrending_34_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">beta_hat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">beta_hat</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">beta_hat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;$x^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;$y^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;$z^2$&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">)</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>&lt;matplotlib.text.Text at 0x7f85d39a8198&gt;
+</code></pre></div>
+
+<p><img alt="png" src="003-detrending_files/003-detrending_35_1.png" /></p>
+<h3 id="should-we-keep-going">Should we keep going?<a class="headerlink" href="#should-we-keep-going" title="Permanent link">&para;</a></h3>
+<p>We could augment this model of the bias further with additional functions
+(<span class="arithmatex">\(x^3\)</span>, <span class="arithmatex">\(x^4\)</span>, etc.), but should we really keep going? At some point, the
+functions that we use will start picking up the interesting spatial variation in
+the data, rather than the large-scale bias. So, we can't just keep going with
+this.</p>
+<blockquote>
+<h3 id="when-is-it-enough">When is it enough?<a class="headerlink" href="#when-is-it-enough" title="Permanent link">&para;</a></h3>
+<p>In some conditions, you might be able to determine empirically when you
+should stop the process of augmenting a model. A variation of this principle
+is demonstrated in the temporal domain in <a href="http://journal.frontiersin.org/article/10.3389/fnins.2013.00247/full">this paper</a>
+</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Greydon Gilmore
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/greydongilmore" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.de50e36d.min.js"></script>
+      <script src="../assets/javascripts/bundle.38f5c9b5.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9b3611bd.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.4/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
