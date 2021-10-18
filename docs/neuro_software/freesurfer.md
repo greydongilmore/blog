@@ -5,7 +5,9 @@ template: overrides/main.html
 
 ## Download software
 
-Download the [linux software version](https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz).
+Download the [software version](https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz).
+
+### Linux
 
 Run the following command:
 
@@ -21,7 +23,7 @@ sudo apt-get install libglu1
 sudo apt-get install libxss1
 ```
 
-## Post-Install Configurations
+#### Post-Install Configurations
 
 Add Freesurfer to your path:
 
@@ -41,7 +43,7 @@ SUBJECTS_DIR    /usr/local/freesurfer/subjects
 MNI_DIR         /usr/local/freesurfer/mni
 ```
 
-## Define subjects_dir
+#### Define subjects_dir
 
 FreeSurfer requires an environment variable called ```SUBJECTS_DIR```. This is the directory where subject data is stored.
 
@@ -49,7 +51,7 @@ FreeSurfer requires an environment variable called ```SUBJECTS_DIR```. This is t
 export SUBJECTS_DIR=<path to subject data>
 ```
 
-## Obtain license
+#### Obtain license
 
 You will need to obtain a [license key](https://surfer.nmr.mgh.harvard.edu/registration.html).
 

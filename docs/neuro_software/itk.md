@@ -3,9 +3,11 @@ title: ITK
 template: overrides/main.html
 ---
 
-## Download ITK
+# Installing ITK
 
-Create a build, install and source directory for NiftyReg:
+## Linux
+
+Create a build, install and source directory for ITK:
 
 ```console
 mkdir ~/Downloads/itk_{build,source}
@@ -18,7 +20,10 @@ cd ~/Downloads/itk_source
 git clone --recursive https://github.com/SimpleITK/SimpleITK.git .
 ```
 
-## Run CMake/Make
+### Run CMake/Make
+
+!!! Note 
+    If you don't have make/cmake, follow the steps in this [guide](../operating_systems/cmake.html).
 
 Make the build and install directories. 
 
@@ -31,7 +36,7 @@ ccmake ~/Downloads/itk_source/SuperBuild
 
 Press __'c'__ to configure the ITK project, press __'c'__ again to finalize the configuration. Once the project is correctly configured, press the __'g'__ key to generate the Makefiles. You can then build and install the project:
 
-``console
+```console
 make -j4
 ```
 

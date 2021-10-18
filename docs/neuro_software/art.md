@@ -5,7 +5,9 @@ template: overrides/main.html
 
 ## Download ART
 
-Download the newest version of [ART](https://www.nitrc.org/projects/art/)
+Download the newest version of [ART](https://www.nitrc.org/projects/art/).
+
+### Linux
 
 Make a new directory for the install and extract the tar package into it:
 
@@ -15,7 +17,7 @@ cd ~/Applications/ART
 tar -xvzf /mnt/c/Users/*[your_username]*/Downloads/acpcdetect2.0*.tar.gz
 ```
 
-## Post Configuration
+#### Post Configuration
 
 Set the ```ARTHOME``` environment variable and add the binary directory to your PATH by editing your ```~/.bashrc``` file:
 
@@ -30,7 +32,7 @@ export ARTHOME=/path/to/ART
 export PATH=$ARTHOME/bin:$PATH
 ```
 
-## Confirm Installation
+#### Confirm Installation
 
 Execute `acpcdetect` by running command in terminal
 

@@ -3,7 +3,7 @@ title: Machine Learning Intro
 template: overrides/main.html
 ---
 
-# Machine Learning Intro
+# Introduction
 
 **Machine learning** is the field of science/engineering that seeks to build systems capable of learning from experience. This is a very broad definition, and in practice, the set of activities that get labeled "machine learning" is pretty heterogeneous. However, two elements are common to nearly all machine learning applications: (a) the emphasis is on developing algorithms that can learn (semi-)autonomously from data, rather than static rule-based systems that must be explicitly designed or updated by humans; and (b) algorithm evaluation focuses heavily on the ability to meet objective quantitative targets.
 

@@ -80,10 +80,8 @@ import nibabel as nib
 T1w_img = nib.load(t1_file)
 ```
 
-Because `nibabel` loads the data "lazily", the data hasn't been read into memory
-yet, only some basic metadata stored in the file header. To access the data, we
-need to explicitly call the `get_data` method of the image object that we
-currently have in memory:
+Because `nibabel` loads the data "lazily", the data hasn't been read into memory yet, only some basic metadata stored in the file header. To access the data, we
+need to explicitly call the `get_data` method of the image object that we currently have in memory:
 
 
 ```python
@@ -97,12 +95,7 @@ The data is stored in a `numpy` array. We can verify that by running:
 type(T1w_data)
 ```
 
-
-
-
     numpy.ndarray
-
-
 
 We can check some basic properties of this array by running:
 
@@ -115,7 +108,6 @@ print(T1w_data.dtype)
     (81, 106, 76)
     int16
 
-
 We can also visualize the data that was stored in the file using `Matplotlib`
 
 
@@ -127,125 +119,4 @@ fig, ax = plt.subplots(1)
 ax.matshow(T1w_data[:, :, T1w_data.shape[-1]//2], cmap='bone')
 ```
 
-    /opt/conda/lib/python3.5/site-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
-      warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')
-    /opt/conda/lib/python3.5/site-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
-      warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')
-
-
-
-
-
-    <matplotlib.image.AxesImage at 0x7f3420043b00>
-
-
-
-
-    
 ![png](001-introduction_files/001-introduction_23_2.png)
-    
-
-
-> ## Exercise: The nibabel header
->
-> Explore the 'T1w_img' object. How would you extract information about the
-> parameters used to collect data? What information is missing?
->
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-> ## Solution: The nibabel header
->  
-> Information about the acquisition can be accessed using the image header:
->
->     hdr = T1w_img.get_header()
->
-> For example:
->
->     affine = hdr.get_zooms()
->
-> will usually provide the dimensions of the voxel (how do we know the units?)
->
-> Some information might be missing from the file header (or not make sense).
-> For example, try running:
->
->     hdr.get_n_slices()
->
-
-
-> ## Affine transforms
->
-> The nibabel image header also contains the affine transformation between the
-> image and a standard space (usually the scanner iso-center in mm). For more
-> information on how and why this information is used, you might want to refer
-> to [this excellent tutorial in the nibabel documentation](http://nipy.org/nibabel/coordinate_systems.html).
->
->
-
-
-```python
-
-```

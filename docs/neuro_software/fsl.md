@@ -3,11 +3,11 @@ title: FMRIB Software Library (FSL)
 template: overrides/main.html
 ---
 
-## Download FSL
+# Installing FSL
 
-The easiest method is to download this [python script](https://fsl.fmrib.ox.ac.uk/fsldownloads_registration/).
+The easiest method is to download this [python script](https://fsl.fmrib.ox.ac.uk/fsldownloads_registration/). You will need to register. On the subsequent page you will download the `fslinstaller.py` file.
 
-You will need to register. On the subsequent page you will download the ```fslinstaller.py``` file.
+## Linux
 
 Run the following in a linux terminal (the install will take awhile):
 
@@ -15,7 +15,7 @@ Run the following in a linux terminal (the install will take awhile):
 python /mnt/c/Users/*[your_username]*/Downloads/fslinstaller.py
 ```
 
-You will also need to install the package ```wxpython```:
+You will also need to install the package `wxpython`:
 
 ```console
 pip install wxpython
@@ -27,29 +27,31 @@ If that does not work then run:
 pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython
 ```
 
-## Libraries you may need to install
+### Potential libraries you may need
 
-### Multiple-image Network Graphics library (libmng)
+You may need to install some of the following libraries.
+
+**Multiple-image Network Graphics library (libmng)**
 
 ```console
 sudo apt-get install libmng2
 sudo apt-get install libmng-dev
 ```
 
-### PNG library - development (libpng-dev)
+**PNG library - development (libpng-dev)**
 
 ```console
 sudo apt-get install libpng-dev
 ```
 
-### Optimized BLAS (linear algebra) library (libopenblas-base)
+**Optimized BLAS (linear algebra) library (libopenblas-base)**
 
 ```console
 sudo apt-get install libopenblas-base
 export LD_LIBRARY_PATH=/usr/lib/openblas-base/
 ```
 
-### libmng.so.1 Error
+**libmng.so.1 Error**
 
 You will need to create a symbolic link for the library dll ```libmng.so.1```:
 
@@ -57,13 +59,13 @@ You will need to create a symbolic link for the library dll ```libmng.so.1```:
 sudo ln -s /usr/lib/x86_64-linux-gnu/libmng.so.2 /usr/lib/x86_64-linux-gnu/libmng.so.1
 ```
 
-### Independent JPEG Group's JPEG runtime library (libjpeg62)
+**Independent JPEG Group's JPEG runtime library (libjpeg62)**
 
 ```console
 sudo apt-get install libjpeg62
 ```
 
-### PNG library - runtime (libpng12.deb)
+**PNG library - runtime (libpng12.deb)**
 
 ```console
 wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
@@ -71,19 +73,21 @@ wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/lib
   && rm /tmp/libpng12.deb
 ```
 
-### GTK+ graphical user interface library (gtk2.0)
+**GTK+ graphical user interface library (gtk2.0)**
 
 ```console
 sudo apt-get install gtk2.0
 ```
 
-## Pulseaudio for other random libraries
+**Pulseaudio for other random libraries**
 
 ```console
 sudo apt-get install pulseaudio
 ```
 
-## You may also receive an error ```No D-BUS daemon running```, run the following:
+**You may also receive an error `No D-BUS daemon running`**
+
+run the following:
 
 ```console
 sudo chown -R *[your username]*:admin ~/.dbus

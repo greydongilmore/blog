@@ -3,7 +3,7 @@ title: dcm2niix
 template: overrides/main.html
 ---
 
-## Run Install
+## Linux
 
 Run the following code in a linux terminal:
 
@@ -11,7 +11,7 @@ Run the following code in a linux terminal:
 sudo apt-get install dcm2niix
 ```
 
-## Install Dependencies
+### Install Dependencies
 
 If you plan to run with a compressed output, you should install `pigz` to make the conversion run faster:
 

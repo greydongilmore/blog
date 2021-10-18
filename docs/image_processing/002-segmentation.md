@@ -1,5 +1,9 @@
+---
+title: Segmentation
+template: overrides/main.html
+---
+
 # Segmentation
-(teaching: 15 minutes)
 
 ## Questions:
 - "How can we segment an image into different sections?"
@@ -14,8 +18,7 @@
 - "The first uses the histogram of the pixel gray values"
 - "The second detects edges and fills between them"
 
-Segmentation is a basic operation in image processing. Very often, we will want
-to use image information in order to differentiate between different parts of
+Segmentation is a basic operation in image processing. Very often, we will want to use image information in order to differentiate between different parts of
 the image as belonging to different objects, or different classes.
 
 We will talk about two different ways of segmenting an image. Neither of them
@@ -26,7 +29,6 @@ We will use [`scikit-image`](http://scikit-image.org/) to perform these
 operations.
 
 But first, let's get the data using `nibabel`
-
 
 ```python
 import os.path as op

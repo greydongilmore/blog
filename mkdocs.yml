@@ -114,7 +114,15 @@ nav:
       - GitHub Desktop: phd_related/install-github-desktop/index.md
       - Making PDFs Searchable: phd_related/ocr-papers/index.md
       - Reading Academic Papers: phd_related/reading-academic-papers/index.md
+  - Neuro Software:
+        - Advanced Normalization Tools: neuro_software/ants.md
+        - Automatic Registration Toolbox: neuro_software/art.md
+        - dcm2niix: neuro_software/dcm2niix.md
+        - Freesurfer: neuro_software/freesurfer.md
+        - FMRIB Software Library (FSL): neuro_software/fsl.md
+        - NiftyReg: neuro_software/niftyreg.md
   - Operating System Tips:
+      - Make/Cmake: operating_systems/cmake.md
       - Linux (Debian systems):
           - Overview: operating_systems/linux/index.md
           - Chrome Remote Desktop: operating_systems/linux/remote_desktop.md
@@ -122,13 +130,6 @@ nav:
           - Desktop App Launcher: operating_systems/linux/app_icon.md
       - WSL:
           - Overview: operating_systems/wsl/index.md
-          - Advanced Normalization Tools: operating_systems/wsl/ants.md
-          - Automatic Registration Toolbox: operating_systems/wsl/art.md
-          - Make/Cmake: operating_systems/wsl/cmake.md
-          - dcm2niix: operating_systems/wsl/dcm2niix.md
-          - Freesurfer: operating_systems/wsl/freesurfer.md
-          - FMRIB Software Library: operating_systems/wsl/fsl.md
-          - NiftyReg: operating_systems/wsl/niftyreg.md
           - Terminator: operating_systems/wsl/terminator.md
           - WSL: operating_systems/wsl/wsl.md
           - WSL2: operating_systems/wsl/wsl2.md
@@ -136,7 +137,7 @@ nav:
           - Overview: operating_systems/windows/index.md
           - Obtain Product Key: operating_systems/windows/product_key.md
           - Mount Remote Drive: operating_systems/windows/sshfs.md
-  - Python Intro:
+  - Python:
       - Basics:
           - Operations: python_intro/01_01_python_basics_operations.md
           - Numpy: python_intro/01_02_python_basics_numpy.md
@@ -144,8 +145,8 @@ nav:
       - Plotting:
           - Matplotlib: python_intro/02_02_plotting_matplotlib.md
   - Signal Processing:
-      - Signal Processing Intro: signal_processing/signal_processing.md
+      - Introduction: signal_processing/signal_processing.md
   - Machine Learning:
-      - Machine Learning Intro: machine_learning/ml_basics.md
+      - Introduction: machine_learning/ml_basics.md
       - Linear Regression: machine_learning/linear_regression.md
       - Logistic Regression: machine_learning/logistic_regression.md
