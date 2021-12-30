@@ -1,0 +1,149 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+--[[
+Conky, a system monitor, based on torsmo
+
+Any original torsmo code is licensed under the BSD license
+
+All code written since the fork of torsmo is licensed under the GPL
+
+Please see COPYING for details
+
+Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+Copyright (c) 2005-2012 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+All rights reserved.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+]]
+conky.config = {
+	
+	--Various settings
+    background = true,
+	update_interval = 1.5,
+	cpu_avg_samples = 2,
+	net_avg_samples = 2,
+	out_to_console = false,
+	override_utf8_locale = true,
+	double_buffer = true,
+	no_buffers = true,
+	text_buffer_size = 32768,
+	imlib_cache_size = 0,
+	
+	--Placement
+	minimum_width = 300,
+	maximum_width = 300,
+	minimum_height = 0,
+	xinerama_head = 2,
+	alignment = 'top_right',
+	gap_x = 50,
+	gap_y = 50,
+
+	--Graphical
+	border_inner_margin = 10,
+	border_outer_margin = 10,
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+	--Textual
+	use_xft = true,
+	font = 'ubuntu:size=10',
+	xftalpha = 0.6,
+	uppercase = false,
+	
+	--Windows
+	own_window = true,
+	own_window_type = 'desktop',
+	own_window_argb_visual = true,
+	own_window_argb_value = 120,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_colour = '#000000',
+	own_window_transparent = yes,
+
+	--Colours
+	default_color = '#000000',
+	color1 = 'FF993D',			-- title_color
+	color2 = 'AABBFF',			-- horizontal rule
+	color3 = 'FBFFFE',			-- text color
+};
+
+conky.text = [[
+#------------+
+# INFO
+#------------+
+${goto 10} ${color1}${font :bold:size=14}Info ${color2}${hr 2}
+${voffset -30}
+${font}${color3}
+OS $alignr ${execi 999999 lsb_release -ds} ${execi 999999 lsb_release -cs} $machine
+Kernel $alignr $sysname $kernel
+GPU $alignr${exec nvidia-smi -i 0 --query-gpu=gpu_name --format=csv,noheader,nounits}
+CPU $alignr${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}
+
+#------------+
+# System
+#------------+
+${goto 10} ${color1}${font :bold:size=14}System ${color2}${hr 2}
+${voffset -30}
+${font}${color3}
+RAM Usage $alignc $mem/$memmax $alignr $memperc% 
+${membar 4}
+Swap Usage $alignc $swap/$swapmax $alignr $swapperc% 
+${swapbar 4}
+CPU Usage $alignc${goto 100} $alignr $cpu%
+${cpubar 4}
+
+#------------+
+# FILESYSTEM
+#------------+
+${goto 10} ${color1}${font :bold:size=14}File Systems ${color2}${hr 2}
+${voffset -30}
+${font}${color3}
+/root $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_used_perc /}%
+${fs_bar /}
+/home $alignc ${fs_used /home/greydon} / ${fs_size /home/greydon} $alignr ${fs_used_perc /home/greydon}%
+${fs_bar /home/greydon}
+${if_existing /media/veracrypt1} /veracrypt1 $alignc ${fs_used /media/veracrypt1} / ${fs_size /media/veracrypt1} $alignr ${fs_free_perc /media/veracrypt1}%
+${fs_bar /media/veracrypt1}${else}${voffset -16}${endif}
+${if_existing /media/veracrypt2} /veracrypt2 $alignc ${fs_used /media/veracrypt2} / ${fs_size /media/veracrypt2} $alignr ${fs_free_perc /media/veracrypt2}%
+${fs_bar /media/veracrypt2}${else}${voffset -16}${endif}
+${if_existing /media/veracrypt3} /veracrypt3 $alignc ${fs_used /media/veracrypt3} / ${fs_size /media/veracrypt3} $alignr ${fs_free_perc /media/veracrypt3}%
+${fs_bar /media/veracrypt3}${else}${voffset -16}${endif}
+${if_existing /media/veracrypt4} /veracrypt4 $alignc ${fs_used /media/veracrypt4} / ${fs_size /media/veracrypt4} $alignr ${fs_free_perc /media/veracrypt4}%
+${fs_bar /media/veracrypt4}${else}${voffset -16}${endif}
+${if_existing /media/veracrypt5} /veracrypt5 $alignc ${fs_used /media/veracrypt5} / ${fs_size /media/veracrypt5} $alignr ${fs_free_perc /media/veracrypt5}%
+${fs_bar /media/veracrypt5}${else}${voffset -16}${endif}
+${if_existing /media/veracrypt6} /veracrypt6 $alignc ${fs_used /media/veracrypt6} / ${fs_size /media/veracrypt6} $alignr ${fs_free_perc /media/veracrypt6}%
+${fs_bar /media/veracrypt6}${else}${voffset -16}${endif}
+
+#------------+
+# GPU
+#------------+
+${goto 10} ${color1}${font :bold:size=14}GPU ${color2}${hr 2}
+${voffset -30}
+${font}${color3}
+Temperature: $alignr ${execi 60 nvidia-settings -query [gpu:0]/GPUCoreTemp -t}°C
+Utilization: $alignr ${exec nvidia-smi -i 0 | grep % | cut -c 61-63} %
+VRAM Utilization: $alignr ${exec nvidia-smi -i 0| grep % | cut -c 37-40} MB
+Power Draw: $alignr ${exec nvidia-smi -i 0| grep % | cut -c 21-23} W
+
+#------------+
+#CPU CORES
+#------------+
+${goto 10} ${color1}${font :bold:size=14}CPUs ${color2}${hr 2}
+${voffset -30}
+${font}${color3}
+01: ${cpu cpu1}%${goto 80}${cpubar cpu1 6,60}${goto 160}05: ${cpu cpu5}%${goto 220}${cpubar cpu5 6,60}${goto 300}${hwmon 2 temp 2}°C
+02: ${cpu cpu2}%${goto 80}${cpubar cpu2 6,60}${goto 160}06: ${cpu cpu6}%${goto 220}${cpubar cpu6 6,60}${goto 300}${hwmon 2 temp 3}°C
+03: ${cpu cpu3}%${goto 80}${cpubar cpu3 6,60}${goto 160}07: ${cpu cpu7}%${goto 220}${cpubar cpu7 6,60}${goto 300}${hwmon 2 temp 4}°C
+04: ${cpu cpu4}%${goto 80}${cpubar cpu4 6,60}${goto 160}08: ${cpu cpu8}%${goto 220}${cpubar cpu8 6,60}${goto 300}${hwmon 2 temp 5}°C
+]]
