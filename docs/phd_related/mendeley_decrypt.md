@@ -3,8 +3,7 @@ title: How to extract data from an encryted Mendeley database
 template: overrides/main.html
 ---
 !!! note
-    The following article was written by Tony Garnock-Jones, the original article can be found <a href='https://eighty-twenty.org/2018/06/13/mendeley-encrypted-db' 
-    target="_blank">here</a>.
+    The following article was written by <a href='https://leastfixedpoint.com/tonyg/' target="_blank"> __Tony Garnock-Jones__ </a>, the original article can be found <a href='https://eighty-twenty.org/2018/06/13/mendeley-encrypted-db' target="_blank">here</a>.
 
 In an effort to stop users from porting their databases to other software like Zotero, Mendeley has begun encrypting the user database. Mendeley is using the SQLite Encryption Extension (“SEE”) with a hidden key. The SEE library is closed-source and very proprietary. Its API is documented, but its on-disk structures are not (publicly) documented, and the source code is not publicly available. Applications using SEE are required to make it impossible to access SEE functionality from outside the application.
 
