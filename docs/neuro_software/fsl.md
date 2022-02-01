@@ -12,7 +12,7 @@ The easiest method is to download this [python script](https://fsl.fmrib.ox.ac.u
 You will first need to run the following steps prior to installing FSL.
 
 !!! note
-    The following steps were originally written here <a href='https://forums.linuxmint.com/viewtopic.php?p=1531616&sid=eca87543f47ece83994a3e3b656447c3#p1531616' target="_blank"> __here__ </a>.
+    The following steps were originally written <a href='https://forums.linuxmint.com/viewtopic.php?p=1531616&sid=eca87543f47ece83994a3e3b656447c3#p1531616' target="_blank"> __here__ </a>.
 
 !!! warning
     make sure you run a backup prior to performing this hack… just in case.
