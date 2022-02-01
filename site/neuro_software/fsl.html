@@ -402,6 +402,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installing-on-pop_os" class="md-nav__link">
+    Installing on Pop_OS!
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#linux" class="md-nav__link">
     Linux
   </a>
@@ -981,6 +988,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installing-on-pop_os" class="md-nav__link">
+    Installing on Pop_OS!
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#linux" class="md-nav__link">
     Linux
   </a>
@@ -1025,6 +1039,66 @@
   
   <h1 id="installing-fsl">Installing FSL<a class="headerlink" href="#installing-fsl" title="Permanent link">&para;</a></h1>
 <p>The easiest method is to download this <a href="https://fsl.fmrib.ox.ac.uk/fsldownloads_registration/">python script</a>. You will need to register. On the subsequent page you will download the <code>fslinstaller.py</code> file.</p>
+<h2 id="installing-on-pop_os">Installing on Pop_OS!<a class="headerlink" href="#installing-on-pop_os" title="Permanent link">&para;</a></h2>
+<p>You will first need to run the following steps prior to installing FSL.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following steps were originally written here <a href='https://forums.linuxmint.com/viewtopic.php?p=1531616&sid=eca87543f47ece83994a3e3b656447c3#p1531616' target="_blank"> <strong>here</strong> </a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>make sure you run a backup prior to performing this hack… just in case.</p>
+</div>
+<ol>
+<li>
+<p>move your current OS information files into a temporary location:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo mv /etc/os-release /etc/os-release.pop &amp;&amp; sudo mv /etc/lsb-release /etc/lsb-release.pop</span>
+</code></pre></div>
+</li>
+<li>
+<p>write a new <code>os-release</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo gedit /etc/os-release</span>
+</code></pre></div>
+<p>copy the following into this file:</p>
+<div class="highlight"><pre><span></span><code>NAME=&quot;Ubuntu&quot;
+VERSION=&quot;20.04 LTS (Focal Fossa)&quot;
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME=&quot;Ubuntu 20.04 LTS&quot;
+VERSION_ID=&quot;20.04&quot;
+HOME_URL=&quot;https://www.ubuntu.com/&quot;
+SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;
+BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;
+PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+</code></pre></div>
+</li>
+<li>
+<p>write a new lsb-release file:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo gedit /etc/lsb-release</span>
+</code></pre></div>
+<p>copy the following into this file:</p>
+<div class="highlight"><pre><span></span><code>DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION=&quot;Ubuntu 20.04 LTS&quot;
+</code></pre></div>
+</li>
+<li>
+<p>now run the fslinstaller.py script in the below section and return here to Step 5 to return your OS information.</p>
+</li>
+<li>
+<p>after running the FSL install steps, remove the files you wrote:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo rm /etc/os-release &amp;&amp; sudo rm /etc/lsb-release</span>
+</code></pre></div>
+</li>
+<li>
+<p>move the original files back:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo mv /etc/os-release.pop /etc/os-release &amp;&amp; sudo mv /etc/lsb-release.pop /etc/lsb-release</span>
+</code></pre></div>
+</li>
+</ol>
 <h2 id="linux">Linux<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h2>
 <p>Run the following in a linux terminal (the install will take awhile):</p>
 <div class="highlight"><pre><span></span><code><span class="go">python /home/*[your_username]*/Downloads/fslinstaller.py</span>
