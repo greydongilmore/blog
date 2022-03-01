@@ -115,13 +115,13 @@ nav:
       - Making PDFs Searchable: phd_related/ocr-papers/index.md
       - Reading Academic Papers: phd_related/reading-academic-papers/index.md
   - Neuro Software:
-        - Advanced Normalization Tools: neuro_software/ants.md
-        - Automatic Registration Toolbox: neuro_software/art.md
-        - dcm2niix: neuro_software/dcm2niix.md
-        - Freesurfer: neuro_software/freesurfer.md
-        - FMRIB Software Library (FSL): neuro_software/fsl.md
-        - NiftyReg: neuro_software/niftyreg.md
-        - ITK: neuro_software/ITK.md
+      - Advanced Normalization Tools: neuro_software/ants.md
+      - Automatic Registration Toolbox: neuro_software/art.md
+      - dcm2niix: neuro_software/dcm2niix.md
+      - Freesurfer: neuro_software/freesurfer.md
+      - FMRIB Software Library (FSL): neuro_software/fsl.md
+      - NiftyReg: neuro_software/niftyreg.md
+      - ITK: neuro_software/ITK.md
   - Operating System Tips:
       - Make/Cmake: operating_systems/cmake.md
       - Linux (Debian systems):
