@@ -121,6 +121,7 @@ nav:
         - Freesurfer: neuro_software/freesurfer.md
         - FMRIB Software Library (FSL): neuro_software/fsl.md
         - NiftyReg: neuro_software/niftyreg.md
+        - ITK: neuro_software/ITK.md
   - Operating System Tips:
       - Make/Cmake: operating_systems/cmake.md
       - Linux (Debian systems):
