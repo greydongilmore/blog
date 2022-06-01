@@ -29,6 +29,9 @@ git clone https://github.com/SuperElastix/niftyreg.git .
 
 ### Run CMake/Make
 
+!!! Note 
+    If you don't have make/cmake, follow the steps in this [guide](../operating_systems/cmake.html).
+
 Make the build and install directories. 
 
 The default install location is `/usr/local`, which falls on your PATH. This is the easiest location to install. If you want to install somewhere else then specify the path in the `CMAKE_INSTALL_PREFIX` variable.

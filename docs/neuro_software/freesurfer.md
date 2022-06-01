@@ -5,14 +5,14 @@ template: overrides/main.html
 
 ## Download software
 
-Download the [software version](https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz).
+Download the relevant software version from [here](https://surfer.nmr.mgh.harvard.edu/fswiki/rel7downloads).
 
-### Linux
+### Linux (tar archive)
 
-Run the following command:
+Run the following command, update according to your specifications:
 
 ```console
-sudo tar -C /usr/local -xzvf /mnt/c/Users/*[your_username]*/Downloads/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz
+sudo tar -C /usr/local -xzvf /mnt/c/Users/*[your_username]*/Downloads/freesurfer-Linux-*.tar.gz
 ```
 
 You will also need to install some dependancies:
@@ -28,7 +28,7 @@ sudo apt-get install libxss1
 Add Freesurfer to your path:
 
 ```console
-echo "FREESURFER_HOME=/usr/local/freesurfer" >> ~/.bashrc
+echo "FREESURFER_HOME=/usr/local/freesurfer/[version]" >> ~/.bashrc
 echo 'source $FREESURFER_HOME/SetUpFreeSurfer.sh' >> ~/.bashrc
 ```
 
