@@ -122,6 +122,7 @@ nav:
       - FMRIB Software Library (FSL): neuro_software/fsl.md
       - NiftyReg: neuro_software/niftyreg.md
       - ITK: neuro_software/ITK.md
+      - The Visualization Toolkit (VTK): neuro_software/vtk.md
   - Operating System Tips:
       - Make/Cmake: operating_systems/cmake.md
       - Linux (Debian systems):
