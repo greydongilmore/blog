@@ -197,6 +197,8 @@ vi ~/.config/terminator/config
 ```
 
 ```
+[global_config]
+  always_split_with_profile = True
 [layouts]
   [[default]]
     [[[child1]]]
@@ -205,7 +207,8 @@ vi ~/.config/terminator/config
       type = Terminal
     [[[window0]]]
       parent = ""
-      size = 1594, 465
+      position = 2200:450
+      size = 1400, 470
       type = Window
 ```
 
